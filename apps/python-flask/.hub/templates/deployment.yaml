@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: CHANGEMEPLEASE
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: CHANGEMEPLEASE
+  template:
+    metadata:
+      labels:
+        app: CHANGEMEPLEASE
+    spec:
+      containers:
+      - image: application
+        imagePullPolicy: Always
+        name: applicaiton
+        ports:
+        - containerPort: 80

@@ -1,0 +1,11 @@
+.gititnore
+.dockerignore
+.envrc
+.cp
+__pycache__
+.pyc
+Makefile
+.hub/
+.DS_STORE
+!conf/docker.py
+src/Makefile

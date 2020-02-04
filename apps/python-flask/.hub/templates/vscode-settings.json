@@ -1,0 +1,6 @@
+{
+  "python.envFile": "${workspaceFolder}/.vscode/env",
+  "cloudcode.profile-registry-map": {},
+  "cloudcode.debug-kubernetes": {},
+  "cloudcode.enableDeployDebugV2": true
+}

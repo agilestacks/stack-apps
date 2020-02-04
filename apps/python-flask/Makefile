@@ -1,0 +1,24 @@
+.DEFAULT_GOAL := deploy
+SHELL := /bin/bash
+
+DOCKER     := docker
+SKAFFOLD   := source .hub/current-context && skaffold
+MAKE       := source .hub/current-context && $(MAKE)
+
+export SKAFFOLD_PROFILE ?= incluster
+export HUB_APP_NAME     ?= rubik
+
+skaffold-%:
+	$(SKAFFOLD) $(lastword $(subst -, ,$@))
+
+src/% .hub/%:
+	$(MAKE) -C "$(@D)" $(@F)
+
+clean: .hub/clean src/clean
+generate: .hub/generate
+configure reconfigure: clean generate
+dev skaffold: skaffold-dev
+run deploy: skaffold-run
+delete undeploy: skaffold-delete
+
+.PHONY: clean generate hub dev run

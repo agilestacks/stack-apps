@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='agilestacks.png') }}">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#000000">
+
+    <title>Agile Stacks for Developers</title>
+</head>
+
+<body>
+
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+
+    <div id="root">
+        <div class="App">
+            <script type="text/javascript">
+                const theme = window.localStorage && window.localStorage.getItem('theme') ||
+                    'default';
+                document.querySelector('.App').classList.add(`asi-theme-${theme}`);
+
+            </script>
+            <header class="App-header">
+                <div class="asi-theme-switch">
+                    <div
+                        class="asi-theme-toggle asi-theme-toggle-dark"
+                        title="Switch to light theme"
+                        data-theme="light"
+                    >
+                        <span
+                            role="img"
+                            aria-label="moon"
+                            class="asi-theme-toggle-icon"
+                        >
+                            🌙
+                        </span>
+                    </div>
+                    <div
+                        class="asi-theme-toggle asi-theme-toggle-light"
+                        title="Switch to dark theme"
+                        data-theme="dark"
+                    >
+                        <span
+                            role="img"
+                            aria-label="sun"
+                            class="asi-theme-toggle-icon"
+                        >
+                            ☀️
+                        </span>
+                    </div>
+                    <div class="asi-theme-switch-button"></div>
+                </div>
+
+                <div class="asi-teaser">
+
+                    <h1 class="asi-teaser-title">
+                        <a
+                            class="asi-teaser-title-content"
+                            href="https://www.agilestacks.com/"
+                            rel="noopener noreferrer"
+                            target="_blank"
+                        >
+                            Agile<span class="asi-teaser-stacks">Stacks</span>
+                        </a>
+                    </h1>
+
+                    <h2 class="asi-teaser-keywords">
+
+                        {% for word in words %}
+                        <span class="asi-teaser-keyword asi-teaser-keyword-orange">
+                            {{ word }}
+                        </span>
+
+                        {% if not loop.last %}
+                        +
+                        {% endif %}
+                        {% endfor %}
+
+                    </h2>
+
+                    <div>with no pain</div>
+
+                    <div class="asi-cube-ex">
+                        <div class="asi-cube-ex-parts">
+                            <div class="asi-cube-ex-part asi-cube-ex-roof">
+                                <div class="asi-layer">
+                                    <div class="asi-layer-face asi-layer-face-top">
+                                        <div class="asi-tile asi-tile-orange"></div>
+                                        <div class="asi-tile asi-tile-orange"></div>
+                                        <div class="asi-tile asi-tile-orange"></div>
+                                        <div class="asi-tile asi-tile-orange"></div>
+                                        <div class="asi-tile asi-tile-orange"></div>
+                                        <div class="asi-tile asi-tile-orange"></div>
+                                        <div class="asi-tile asi-tile-orange"></div>
+                                        <div class="asi-tile asi-tile-orange"></div>
+                                        <div class="asi-tile asi-tile-orange"></div>
+                                    </div>
+                                    <div class="asi-layer-face asi-layer-face-right">
+                                        <div class="asi-tile asi-tile-red"></div>
+                                        <div class="asi-tile asi-tile-red"></div>
+                                        <div class="asi-tile asi-tile-red"></div>
+                                    </div>
+                                    <div class="asi-layer-face asi-layer-face-left">
+                                        <div class="asi-tile asi-tile-blue"></div>
+                                        <div class="asi-tile asi-tile-blue"></div>
+                                        <div class="asi-tile asi-tile-blue"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="asi-cube-ex-part asi-cube-ex-base">
+                                <div class="asi-layer">
+                                    <div class="asi-layer-face asi-layer-face-top">
+                                        <div class="asi-tile asi-tile-green"></div>
+                                        <div class="asi-tile asi-tile-green"></div>
+                                        <div class="asi-tile asi-tile-green"></div>
+                                        <div class="asi-tile asi-tile-green"></div>
+                                        <div class="asi-tile asi-tile-green"></div>
+                                        <div class="asi-tile asi-tile-green"></div>
+                                        <div class="asi-tile asi-tile-green"></div>
+                                        <div class="asi-tile asi-tile-green"></div>
+                                        <div class="asi-tile asi-tile-green"></div>
+                                    </div>
+                                    <div class="asi-layer-face asi-layer-face-right">
+                                        <div class="asi-tile asi-tile-red"></div>
+                                        <div class="asi-tile asi-tile-red"></div>
+                                        <div class="asi-tile asi-tile-red"></div>
+                                        <div class="asi-tile asi-tile-red"></div>
+                                        <div class="asi-tile asi-tile-red"></div>
+                                        <div class="asi-tile asi-tile-red"></div>
+                                    </div>
+                                    <div class="asi-layer-face asi-layer-face-left">
+                                        <div class="asi-tile asi-tile-blue"></div>
+                                        <div class="asi-tile asi-tile-blue"></div>
+                                        <div class="asi-tile asi-tile-blue"></div>
+                                        <div class="asi-tile asi-tile-blue"></div>
+                                        <div class="asi-tile asi-tile-blue"></div>
+                                        <div class="asi-tile asi-tile-blue"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </header>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="{{ url_for('static', filename='scripts.js') }}"></script>
+</body>
+
+</html>

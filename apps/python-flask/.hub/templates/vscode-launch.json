@@ -1,0 +1,64 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "cloudcode",
+      "language": "Python",
+      "request": "launch",
+      "imageRegistry": "CHANGEMEPLEASE",
+      "name": "%s: Launch on Kubernetes",
+      "skaffoldConfig": "${workspaceFolder}/skaffold.yaml",
+      "profile": "local",
+      "watch": true,
+      "localRoot": "\"${workspaceFolder}/src\"",
+      "remoteRoot": "/app",
+      "podSelector": {
+        "app": "CHANGEMEPLEASE"
+      },
+      "debug": [
+        {
+          "localRoot": "\"${workspaceFolder}/src\"",
+          "remoteRoot": "/app"
+        }
+      ]
+    },
+    {
+      "type": "cloudcode",
+      "language": "Python",
+      "request": "attach",
+      "debugPort": 3000,
+      "remoteRoot": "/app",
+      "name": "%s: Attach to running container",
+      "skaffoldConfig": "${workspaceFolder}/skaffold.yaml",
+      "profile": "local",
+      "watch": true,
+      "localRoot": "\"${workspaceFolder}/src\"",
+      "podSelector": {
+        "app": "CHANGEMEPLEASE"
+      },
+      "debug": [
+        {
+          "localRoot": "\"${workspaceFolder}/src\"",
+          "remoteRoot": "/app"
+        }
+      ]
+    },
+    {
+      "name": "%s: Run locally",
+      "type": "python",
+      "request": "launch",
+      "module": "flask",
+      "env": {
+        "FLASK_APP": "src/app.py",
+        "FLASK_ENV": "development",
+        "FLASK_DEBUG": "0"
+      },
+      "args": [
+        "run",
+        "--no-debugger",
+        "--no-reload"
+      ],
+      "jinja": true
+    }
+  ]
+}

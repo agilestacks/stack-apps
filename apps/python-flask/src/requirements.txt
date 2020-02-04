@@ -1,0 +1,5 @@
+flask
+flask-json
+waitress
+gunicorn
+uptime
