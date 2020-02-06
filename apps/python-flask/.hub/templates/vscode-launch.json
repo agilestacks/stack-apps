@@ -8,7 +8,7 @@
       "imageRegistry": "CHANGEMEPLEASE",
       "name": "%s: Launch on Kubernetes",
       "skaffoldConfig": "${workspaceFolder}/skaffold.yaml",
-      "profile": "local",
+      "profile": "incluster",
       "watch": true,
       "localRoot": "\"${workspaceFolder}/src\"",
       "remoteRoot": "/app",
@@ -30,7 +30,7 @@
       "remoteRoot": "/app",
       "name": "%s: Attach to running container",
       "skaffoldConfig": "${workspaceFolder}/skaffold.yaml",
-      "profile": "local",
+      "profile": "incluster",
       "watch": true,
       "localRoot": "\"${workspaceFolder}/src\"",
       "podSelector": {
