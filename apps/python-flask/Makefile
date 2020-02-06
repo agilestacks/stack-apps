@@ -16,8 +16,9 @@ src/% .hub/%:
 
 clean: .hub/clean src/clean
 generate: .hub/generate
-configure reconfigure: clean generate
+configure: clean generate
 dev skaffold: skaffold-dev
+build: skaffold-build
 run deploy: skaffold-run
 delete undeploy: skaffold-delete
 

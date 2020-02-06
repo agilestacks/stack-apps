@@ -11,5 +11,8 @@ RUN pip install --compile --no-cache-dir -r requirements.txt
 
 EXPOSE 80
 
+# Friendly for prod
 # ENTRYPOINT ["gunicorn", "-b", "0.0.0.0:80", "app"]
+
+# Friendly for app development
 ENTRYPOINT ["flask", "run", "-h", "0.0.0.0", "-p", "80"]
