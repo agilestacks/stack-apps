@@ -1,0 +1,41 @@
+apiVersion: skaffold/v1
+kind: Config
+metadata:
+  name: CHANGEMEPLEASE
+build:
+  artifacts:
+  - image: CHANGEMEPLEASE
+    sync:
+      manual:
+      - src: 'src/**/*.py'
+        dest: /app
+        strip: src/
+      - src: 'src/static/**'
+        dest: /app
+        strip: src/
+  tagPolicy:
+    dateTime:
+      format: 20060102-150405
+test:
+- image: CHANGEMEPLEASE
+  structureTests:	
+  - ./test/*.yaml
+# portForward: {}
+deploy:
+  # kustomize:
+  #   path: .
+  kubectl:
+    manifests:
+    - k8s/*
+profiles:
+- name: local
+  activation:
+  - env: KUBECONFIG=!
+  build:
+    local:
+      useDockerCLI: true
+- name: incluster
+  build:
+    cluster:
+      dockerConfig:
+        path: .hub/.dockerconfig.json

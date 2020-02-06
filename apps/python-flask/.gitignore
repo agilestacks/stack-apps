@@ -18,9 +18,8 @@ k8s/ingress.yaml
 k8s/service.yaml
 k8s/kaniko-secret.yaml
 .hub/lib
-skaffold.yaml
+/skaffold.yaml
 skaffold.json
 deployment.json
 .dockerconfig.json
-skaffold.yaml
 .hub/current-context

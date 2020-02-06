@@ -6,13 +6,19 @@ local result = template {
   metadata +: {
     name: app + "-",
   },
-  build +: {
+  build+: {
     artifacts: [
-      template.build.artifacts[0] + { 
-        image: app,
+      artifact {
+        image: app
       }
-    ],
+      for artifact in super.artifacts
+    ] 
   },
+  test: [
+    tst {
+      image: app,
+    }
+    for tst in super.test
+  ],
 };
-
 std.prune(result)
