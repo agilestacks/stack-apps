@@ -5,7 +5,7 @@ In current article we will review how to organize a Python development with Kube
 We will do the following:
 1. [Setting up applcation](README.md#setting-up-applciation)
 2. [Setting up VSCode](README.md#development-with-vs-code)
-3. Deploy application to the Kubernetes cluster
+3. [Deploy application to the Kubernetes cluster](#deploy-my-app)
 
 Depending on your previous experience with Kubenretes and Python. This tutorial should take aproximately 25 minutes
 
