@@ -3,7 +3,7 @@
 In current article we will review how to organize a Python development with Kubernetes using Skaffold.
 
 We will do the following:
-1. Setting up applcation
+1. [Setting up applcation](python-flask#setting-up-applciation)
 2. Setting up VSCode
 3. Deploy application to the Kubernetes cluster
 
