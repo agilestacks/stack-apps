@@ -20,9 +20,10 @@ local result = template + {
       },
       spec+: {
         containers: [
-          template.spec.template.spec.containers[0] + {
+          container + {
             image: app
           }
+          for container in super.containers
         ],
       },
     },
