@@ -12,7 +12,6 @@ WORDS = [
     'vault', 'istio'
 ]
 
-
 def get_words(howmany=1):
     """
     returns list of random words
@@ -47,6 +46,11 @@ def status():
         status="ok",
         uptime=uptime(),
     )
+
+
+if application.debug:
+  import ptvsd
+  ptvsd.enable_attach(address=('0.0.0.0', 3000))
 
 if __name__ == "__main__":
     application.run(

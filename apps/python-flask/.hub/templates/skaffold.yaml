@@ -38,4 +38,4 @@ profiles:
   build:
     cluster:
       dockerConfig:
-        path: .hub/.dockerconfig.json
+        path: .hub/dockerconfig.json

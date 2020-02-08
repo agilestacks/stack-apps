@@ -4,13 +4,21 @@ local registry = std.extVar("HUB_DOCKER_HOST") + "/library";
 
 template {
   configurations: [
-    config {
+    local name = if std.findSubstr("%s", config.name) != [] then {
       name: std.format(config.name, app_name),
-      imageRegistry: registry,
-      podSelector: {
-        app: app_name
+    } else {};
+    
+    local podSelector = if "podSelector" in config then {
+      podSelector+: {
+        app: app_name,
       }
-    }
+    } else {};
+    
+    local imageRegistry = if "imageRegistry" in config then {
+      imageRegistry: registry,
+    } else {};
+    
+    config + name + podSelector + imageRegistry
     for config in super.configurations
   ]
 }

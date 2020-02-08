@@ -2,46 +2,27 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "type": "cloudcode",
-      "language": "Python",
+      "type": "cloudcode.kubernetes",
       "request": "launch",
-      "imageRegistry": "CHANGEMEPLEASE",
-      "name": "%s: Launch on Kubernetes",
+      "name": "%s: Run on Kubernetes",
       "skaffoldConfig": "${workspaceFolder}/skaffold.yaml",
-      "profile": "incluster",
       "watch": true,
-      "localRoot": "\"${workspaceFolder}/src\"",
-      "remoteRoot": "/app",
-      "podSelector": {
-        "app": "CHANGEMEPLEASE"
-      },
-      "debug": [
-        {
-          "localRoot": "\"${workspaceFolder}/src\"",
-          "remoteRoot": "/app"
-        }
-      ]
+      "cleanUp": true,
+      "portForward": true,
+      "imageRegistry": "cluster1-harbor.app.cluster1.bluesky.superhub.io/library"
     },
     {
-      "type": "cloudcode",
+      "type": "cloudcode.kubernetes",
       "language": "Python",
       "request": "attach",
       "debugPort": 3000,
+      "localRoot": "${workspaceFolder}",
       "remoteRoot": "/app",
       "name": "%s: Attach to running container",
-      "skaffoldConfig": "${workspaceFolder}/skaffold.yaml",
-      "profile": "incluster",
-      "watch": true,
-      "localRoot": "\"${workspaceFolder}/src\"",
       "podSelector": {
-        "app": "CHANGEMEPLEASE"
+        "app": "%s"
       },
-      "debug": [
-        {
-          "localRoot": "\"${workspaceFolder}/src\"",
-          "remoteRoot": "/app"
-        }
-      ]
+      "imageRegistry": "cluster1-harbor.app.cluster1.bluesky.superhub.io/library"
     },
     {
       "name": "%s: Run locally",
