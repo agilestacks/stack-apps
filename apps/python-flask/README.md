@@ -11,9 +11,9 @@ Depending on your previous experience with Kubenretes and Python. This tutorial 
 
 ## Motivation
 
-I as an app builder want to have similar and productive experience when I build my application with remote Kubernetes Cluster as I would do the same on my local workstation. More details why we are decided to use Skaffold on our Slide Deck [here](TBD)
+As an application developer I want to have higher productivity when developing and testing aplications on remote Kubernetes clusters, as when developing and testing locally on workstation. More details why we are decided to use Skaffold on our Slide Deck [here](TBD)
 
-## Setting Up Applciation
+## Setting Up Application
 
 0. Download hub  CLI from [https://cli.superhub.io](cli.superhub.io)
 
