@@ -1,6 +1,8 @@
-# Deploy a Flask application with Skaffold
+# Development Workflow on Kubernetes - Local Development with Skaffold
 
 The goal of this project is to provide automation for developer workflow on Kubernetes. Building applications for Kubernetes enables significant advantages for developers: declarative configuartion, automation, portability, scalability, self-healing, etc. However, Kubernetes is still new for many development teams, and building Kubernetes applications requires effective development workflows. This project provides a full implementation of developer workflow and provides examples how to organize Python development with Kubernetes using Skaffold.
+
+One of the challenges in adopting Kubernetes is answering the following common questions: how do I develop locally, how should I test, and how can I debug? Deploying each code change to a remote Kubernetes cluster forces developers to spend a lot of time waiting, which is bad for developer productivity and happiness. At the same time local testing is hard because of many dependencies that have to be deployed locally to allow for local testing.  The optimal development workflow will allow to quickly test and debug local changes of your code in the context of a deployed cloud-based environment, with all dependencies and configuations consistent with other environments. 
 
 By automating the local development workflow, we can significantly reduce the deployment and testing time and provide a quick feedback loop which is always crucial for developer productivity.
 
