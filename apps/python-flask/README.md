@@ -28,17 +28,28 @@ More details about Skaffold are available in the following slide deck [here](TBD
 
 ## Setup an Application
 
-0. Download hub  CLI from [https://cli.superhub.io](cli.superhub.io)
+1. To start using Hub CLI binary, download and install using the example for your platform.
 
-```bash
-# MacOS users
-curl -o superhub.tar.gz https://cli.superhub.io/darwin/latest
-tar xvz superhub.tar.gz
-cp -v superhub/bin/hub /usr/local/bin
+On MacOS
+
+```
+curl -O https://controlplane.agilestacks.io/dist/hub-cli/hub.darwin_amd64
+mv hub.darwin_amd64 hub
+chmod +x hub
+sudo mv hub /usr/local/bin
+```
+
+On Linux
+
+```
+curl -O https://controlplane.agilestacks.io/dist/hub-cli/hub.linux_amd64
+mv hub.linux_amd64 hub
+chmod +x hub
+sudo mv hub /usr/local/bin
 ```
 
 
-1. Get application source code
+2. Get application source code
 
 ```bash
 $ git clone https://github.com/agilestacks/stack-apps.git
@@ -54,7 +65,7 @@ python-flask:
   Dockerfile        # docker image with your application  
 ```
 
-2. Retrieve SuperHub API Token.
+3. Retrieve SuperHub API Token.
 
 You can retrieve your API token from the (controlplane.agilestacks.io)[https://controlplane.agilestacks.io/#/user/profile]. Or using CLI:
 ```
@@ -79,7 +90,7 @@ def.superhub.io
 
 Code above will validate that `HUB_TOKEN` environment variable has been defined. Then we will use this toke to fetch list of currently deployed clusters that provides both: `Kubernetes` cluster and `Harbor` private docker registry. This code also confirms that I do have my prerequisites.
 
-3. Apply cluster configuration
+4. Apply cluster configuration
 
 Run the following commands:
 ```bash
