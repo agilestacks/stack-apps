@@ -1,19 +1,30 @@
 # Deploy a Flask application with Skaffold
 
-In current article we will review how to organize a Python development with Kubernetes using Skaffold.
+The goal of this project is to provide automation for developer workflow on Kubernetes. Building applications for Kubernetes enables significant advantages for developers: declarative configuartion, automation, portability, scalability, self-healing, etc. However, Kubernetes is still new for many development teams, and building Kubernetes applications requires effective development workflows. This project provides a full implementation of developer workflow and provides examples how to organize Python development with Kubernetes using Skaffold.
 
-We will do the following:
-1. [Setting up applcation](README.md#setting-up-applciation)
-2. [Setting up VSCode](README.md#development-with-vs-code)
-3. [Deploy application to the Kubernetes cluster](#deploy-my-app)
+By automating the local development workflow, we can significantly reduce the deployment and testing time and provide a quick feedback loop which is always crucial for developer productivity.
+
+You will perform the following steps:
+1. [Setup up application](README.md#setting-up-applciation)
+2. [Setup VSCode](README.md#development-with-vs-code)
+3. [Deploy to Kubernetes cluster](#deploy-my-app)
 
 Depending on your previous experience with Kubenretes and Python. This tutorial should take aproximately 25 minutes
 
 ## Motivation
 
-As an application developer I want to have higher productivity when developing and testing aplications on remote Kubernetes clusters, as when developing and testing locally on workstation. More details why we are decided to use Skaffold on our Slide Deck [here](TBD)
+As an application developer I want the ability to debug and develop my code on remote Kubernetes clusters with the same level of productivity as when deploying locally, without having to commit untested chages to Git, and without waiting for deployments.  By automating the local development workflow, we can significantly reduce the deployment and testing phases and provide a quick feedback loop which is always crucial for developer productivity.  At the same time, we need consistency between how code behaves locally and in the cloud-based environment. For example, we need ability to execute many other services that my code depends on, such as microservices, databases, and messaging systems.  It is often not practical to deploy everything locally due to lack RAM, disk, and security context in local development environment.  This project allows to automate deployments to your development environment for development experience very similar to local development. Once the code is ready and commited to Git version control, it can be deployed to other environments (test, stage, prod) via CI/CD pipeline.
 
-## Setting Up Application
+Skaffold allows to automate many steps in the developer workflow for Kubernetes:
+
+1. Create Kubernetes configuration files for applications
+2. Deploy applications to local or remote Kubernetes clusters
+3. Monitor source code for local changes and automatically redeploy when needed
+4. Steams logs from deployed pods to your local IDE or terminal
+
+More details about Skaffold are available in the following slide deck [here](TBD)
+
+## Setup an Application
 
 0. Download hub  CLI from [https://cli.superhub.io](cli.superhub.io)
 
@@ -90,9 +101,9 @@ $ make generate
 
 More about code generation and conventions can be found [here](TBD) 
 
-## Development with VS Code
+## Setup development environment with VS Code
 
-We have got our applicaiton configured. Now now it's the IDE turn. For python development we will use vscode with intalled [Google CloudCode](https://cloud.google.com/code/docs/vscode/). Alternative setup for IntelliJ can be found [here](https://cloud.google.com/code/docs/intellij/)
+We have got our applicaiton configured. The next step is to setup the IDE. For python development we will use vscode with intalled [Google CloudCode](https://cloud.google.com/code/docs/vscode/). Alternative setup for IntelliJ can be found [here](https://cloud.google.com/code/docs/intellij/)
 
 1. Install required plugins
 
@@ -113,7 +124,7 @@ $ code \
 $ code -n .
 ```
 
-You might notice that our VSCode has been already properly configured. To use our Kubernetes cluster. 
+Notice that your VSCode environment was automatically configured to use the Kubernetes cluster. 
 
-# Deploy my app!
+## Setup Kubernetes deployments
 
