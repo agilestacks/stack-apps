@@ -1,9 +1,9 @@
-VIRTUALENV := .venv
-PYTHON     := python3
-PIP        := source $(VIRTUALENV)/bin/activate; pip3
-PYLINT     := source $(VIRTUALENV)/bin/activate; pylint
-PYTEST     := source $(VIRTUALENV)/bin/activate; pytest
-FLASK      := source $(VIRTUALENV)/bin/activate; flask
+VIRTUALENV  := .venv
+SOURCE_VENV := test -f $(VIRTUALENV)/bin/activate && source $(VIRTUALENV)/bin/activate
+PIP         := $(SOURCE_VENV); pip3
+PYLINT      := $(SOURCE_VENV); pylint
+PYTEST      := $(SOURCE_VENV); pytest
+PYTHON      := $(SOURCE_VENV); python3
 
 $(VIRTUALENV):
 	$(PYTHON) -m venv $(abspath $@)
@@ -17,10 +17,13 @@ lint: $(VIRTUALENV)
 pytest: $(VIRTUALENV)
 	$(PYTEST) --junitxml=junit.xml
 
-flask: $(VIRTUALENV)
-	$(FLASK) run --port=5000
+run: $(VIRTUALENV)
+	$(PYTHON) app.py
 
-deploy: install flask
+deploy: install run
+
+clean:
+	rm -rf $(VIRTUALENV)
 
 .DEFAULT_GOAL := deploy
 .PHONY := deploy flask pytest lint install 

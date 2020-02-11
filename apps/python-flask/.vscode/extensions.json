@@ -1,0 +1,11 @@
+{
+  "recommendations": [
+    "googlecloudtools.cloudcode",
+    "heptio.jsonnet",
+    "ms-azuretools.vscode-docker",
+    "ms-kubernetes-tools.vscode-kubernetes-tools",
+    "ms-python.python",
+    "redhat.vscode-yaml",
+    "xrc-inc.jsonnet-formatter"
+  ]
+}

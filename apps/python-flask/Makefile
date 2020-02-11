@@ -2,8 +2,8 @@
 SHELL := /bin/bash
 
 DOCKER     := docker
-SKAFFOLD   := source .hub/current-context && skaffold
-MAKE       := source .hub/current-context && $(MAKE)
+SKAFFOLD   := skaffold
+MAKE       := source .hub/current && $(MAKE)
 
 export SKAFFOLD_PROFILE ?= incluster
 export HUB_APP_NAME     ?= rubik

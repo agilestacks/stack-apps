@@ -1,0 +1,84 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Pylint",
+      "type": "shell",
+      "command": "python3",
+      "args": [
+        "-m",
+        "pylint",
+        "**/*.py"
+      ],
+      "group": "test",
+      "options": {
+        "cwd": "${workspaceFolder}/src"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Skaffold build",
+      "type": "shell",
+      "command": "skaffold",
+      "args": ["build"],
+      "group": "build",
+      "options": {
+        "env": {
+          "SKAFFOLD_PROFILE": "incluser"
+        },
+        "cwd": "${workspaceFolder}"
+      }
+    },
+    {
+      "label": "Skaffold dev",
+      "type": "shell",
+      "command": "skaffold",
+      "args": ["dev"],
+      "group": "build",
+      "options": {
+        "env": {
+          "SKAFFOLD_PROFILE": "incluser"
+        },
+        "cwd": "${workspaceFolder}",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "Skaffold debug",
+      "type": "shell",
+      "command": "skaffold",
+      "args": ["debug"],
+      "group": {
+        "kind": "build"
+      },
+      "options": {
+        "env": {
+          "SKAFFOLD_PROFILE": "incluser"
+        },
+        "cwd": "${workspaceFolder}"
+      }
+    },
+    {
+      "label": "SuperHub: generate",
+      "type": "shell",
+      "command": "make ",
+      "args": ["clean", "generate"],
+      "group": "build",
+      "options": {
+        "cwd": "${workspaceFolder}/.hub"
+      }
+    },
+    {
+      "label": "Delete secret docker-cfg",
+      "type": "shell",
+      "command": "kubectl",
+      "args": [
+        "delete", "secret", "docker-cfg"
+      ],
+      "group": "none",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      }
+    },
+  ]
+}

@@ -7,6 +7,11 @@ from random import sample
 application = Flask(__name__)
 application.config.from_pyfile(f"conf/{application.config['ENV']}.py")
 
+# Remote debug settings
+if application.config["PTVSD_PORT"]:
+    import ptvsd
+    ptvsd.enable_attach(address=('0.0.0.0', application.config["PTVSD_PORT"]))
+
 WORDS = [
     'helm', 'kustomize', 'kubernetes', 'aws', 'gcp', 'azure', 'terraform', 'docker', 'shell',
     'vault', 'istio'
@@ -48,12 +53,9 @@ def status():
     )
 
 
-if application.debug:
-  import ptvsd
-  ptvsd.enable_attach(address=('0.0.0.0', 3000))
-
 if __name__ == "__main__":
     application.run(
-      host=application.config['HOST'],
-      port=application.config['PORT'],
+      host=application.config.get('HOST'),
+      port=application.config.get('PORT'),
+      debug=application.config.get('DEBUG', False),
     )

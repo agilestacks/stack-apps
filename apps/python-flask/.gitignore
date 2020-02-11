@@ -1,5 +1,6 @@
 .pytest_cache
-/.vscode
+/.vscode/settings.json
+/.vscode/launch.json
 .venv
 __pycache__
 *.egg-info
