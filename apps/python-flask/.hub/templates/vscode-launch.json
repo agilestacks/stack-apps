@@ -7,22 +7,23 @@
       "name": "%s: Run on Kubernetes",
       "skaffoldConfig": "${workspaceFolder}/skaffold.yaml",
       "watch": true,
+      "localRoot": "${workspaceFolder}/src",
       "cleanUp": true,
       "portForward": true,
-      "imageRegistry": "cluster1-harbor.app.cluster1.bluesky.superhub.io/library"
+      "imageRegistry": "CHANGEMEPLEASE"
     },
     {
       "type": "cloudcode.kubernetes",
       "language": "Python",
       "request": "attach",
       "debugPort": 3000,
-      "localRoot": "${workspaceFolder}",
+      "localRoot": "${workspaceFolder}/src",
       "remoteRoot": "/app",
       "name": "%s: Attach to running container",
       "podSelector": {
         "app": "%s"
       },
-      "imageRegistry": "cluster1-harbor.app.cluster1.bluesky.superhub.io/library"
+      "imageRegistry": "CHANGEMEPLEASE"
     },
     {
       "name": "%s: Run locally",

@@ -7,5 +7,7 @@ __pycache__
 Makefile
 .hub/
 .DS_STORE
-!conf/docker.py
+src/conf
+!src/conf/docker.py
+src/.venv
 src/Makefile

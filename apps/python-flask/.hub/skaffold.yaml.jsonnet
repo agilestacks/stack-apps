@@ -14,11 +14,24 @@ local result = template {
       for artifact in super.artifacts
     ] 
   },
-  test: [
-    tst {
-      image: app,
-    }
-    for tst in super.test
+  profiles: [
+    local tests = if "test" in profile then {
+      test: [
+        tst {
+          image: app
+        },
+        for tst in super.test
+      ]
+    } else {};
+
+    profile + tests
+    for profile in super.profiles
   ],
+  // test: [
+  //   tst {
+  //     image: app,
+  //   }
+  //   for tst in super.test
+  // ],
 };
 std.prune(result)

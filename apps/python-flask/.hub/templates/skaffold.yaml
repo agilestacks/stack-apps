@@ -16,10 +16,6 @@ build:
   tagPolicy:
     dateTime:
       format: 20060102-150405
-test:
-- image: CHANGEMEPLEASE
-  structureTests:	
-  - ./test/*.yaml
 # portForward: {}
 deploy:
   # kustomize:
@@ -34,6 +30,12 @@ profiles:
   build:
     local:
       useDockerCLI: true
+  test:
+  # we cannot do structure tests for incluster setup because 
+  # container-structure-test locally and skaffold doesn't do 'docker pull' after build
+  - image: CHANGEMEPLEASE
+    structureTests:	
+    - ./test/*.yaml
 - name: incluster
   build:
     cluster:

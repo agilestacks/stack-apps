@@ -30,25 +30,29 @@ JSONNET_ARGS += -V KUBECONFIG
 jsonnet      := jsonnet $(JSONNET_ARGS)
 
 $(TEMPLATES):
-	$(yq) r $(basename $@).yaml -j > $@
+	$(eval yaml := $(basename $@).yaml)
+	@ test ! -f $(yaml) || $(yq) r $(yaml) -j > $@
 
 $(LIBSONNET):
-	$(curl) -o $@ https://github.com/agilestacks/jsonnet/raw/master/lib/$(@F)
+	@ $(curl) -o $@ https://github.com/agilestacks/jsonnet/raw/master/lib/$(@F)
 
 $(YAML_JSONNET): $(LIBSONNET) $(TEMPLATES)
 	$(eval fname := $(patsubst $(APP_DIR)/%,$(CURDIR)/%,$@))
 	@ mkdir -p "$(@D)"
-	$(jsonnet) "$(fname).jsonnet" | $(yq) r - > $@
+	@ $(jsonnet) "$(fname).jsonnet" | $(yq) r - > $@
+	@ echo "Generated: $@"
 
 $(JSON_JSONNET): $(LIBSONNET) $(TEMPLATES)
 	$(eval fname := $(basename $(patsubst $(APP_DIR)/%,$(CURDIR)/%,$@)))
 	@ mkdir -p "$(@D)"
-	$(jsonnet) "$(fname).jsonnet" > $@
+	@ $(jsonnet) "$(fname).jsonnet" > $@
+	@ echo "Generated: $@"
 
 generate: $(YAML_JSONNET) $(JSON_JSONNET)
 
 clean:
-	rm -f $(YAML_JSONNET) $(JSON_JSONNET) $(LIBSONNET) $(TEMPLATES)
+	@ echo $(YAML_JSONNET) $(JSON_JSONNET) | tr ' ' '\n' | sed -e 's/^/Deleting: /'
+	@ rm -f $(YAML_JSONNET) $(JSON_JSONNET) $(LIBSONNET) $(TEMPLATES)
 
 .PHONY: generate clean
 .DELETE_ON_ERROR: $(YAML_JSONNET) $(JSON_JSONNET) $(LIBSONNET) $(TEMPLATES)

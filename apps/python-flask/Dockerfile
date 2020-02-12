@@ -17,13 +17,8 @@ RUN pip install \
    --compile \
    --no-cache-dir \
    --trusted-host pypi.python.org \
-   -r requirements.txt \
-   ptvsd
+   -r requirements.txt
 
-ARG PTSVD_LAUNCER=https://raw.githubusercontent.com/microsoft/vscode-python/master/pythonFiles/ptvsd_launcher.py
-ADD ${PTSVD_LAUNCER} /usr/local/bin/ptvsd_launcher.py
-RUN chmod +x /usr/local/bin/ptvsd_launcher.py
-# Friendly for app development
 EXPOSE ${FLASK_RUN_PORT}
 EXPOSE ${PTVSD_PORT}
 
