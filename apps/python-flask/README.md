@@ -114,7 +114,7 @@ $ make -C ".hub" generate
 
 Note: jq, yq, jsonnet are required.  On MacOs you can install it with the following command:
 ```bash 
-$ brew install jq yq jsonnet
+$ brew install jq yq jsonnet skaffold
 ```
 
 More about code generation and conventions can be found [here](TBD) 
