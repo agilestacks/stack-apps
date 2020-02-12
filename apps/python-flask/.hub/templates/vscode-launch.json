@@ -10,7 +10,8 @@
       "localRoot": "${workspaceFolder}/src",
       "cleanUp": true,
       "portForward": true,
-      "imageRegistry": "CHANGEMEPLEASE"
+      "imageRegistry": "CHANGEMEPLEASE",
+      "profile": "incluster"
     },
     {
       "type": "cloudcode.kubernetes",
@@ -23,7 +24,8 @@
       "podSelector": {
         "app": "%s"
       },
-      "imageRegistry": "CHANGEMEPLEASE"
+      "imageRegistry": "CHANGEMEPLEASE",
+      "profile": "incluster"
     },
     {
       "name": "%s: Run locally",
