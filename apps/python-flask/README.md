@@ -109,7 +109,12 @@ Can I change my customize or cluster configuration? The short answer is: YES. Mo
 Last but not least. Let's generate applicaiton configuration. Please note you need to regenerate configuration every time when you change your cluster.
 
 ```bash
-$ make generate
+$ make -C ".hub" generate
+```
+
+Note: jq, yq, jsonnet are required.  On MacOs you can install it with the following command:
+```bash 
+$ brew install jq yq jsonnet
 ```
 
 More about code generation and conventions can be found [here](TBD) 
