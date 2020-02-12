@@ -28,7 +28,7 @@ template + {
         local b1   = std.strReplace(f, ".yaml", ""),
         local b2   = std.strReplace(b1, "kubeconfig.", ""),
         name: b2,
-        path: fullpath,
+        configPath: fullpath,
     }
     for fullpath in known_kubeconfigs
     ],
