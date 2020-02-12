@@ -8,7 +8,7 @@ __pycache__
 /.hub/*.yaml
 !/.hub/libs/skaffold.libsonnet
 /.hub/env
-!/.hub/configure
+!/.hub/env/configure
 /.hub/hub.elaborate
 /.hub/hub.state
 /.hub/lib

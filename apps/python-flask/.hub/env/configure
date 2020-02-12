@@ -1,0 +1,22 @@
+#!/bin/bash
+# variables:
+#   STACK       points to the name of the stack
+#   KUBECONFIG  absolute path of kubeconfig
+#   HUB_CONTEXT absolute path to the current rendered file
+#
+# JQ_ARGS has been used by hub-show to parametrize jq outputs
+export JQ_ARGS="-rMc"
+TMPL="
+#!/bin/sh
+export HUB_APP_NAME=rubik
+export HUB_DOMAIN_NAME=`hub-show -s $STACK -q '.parameters.dns.domain'`
+export HUB_INGRESS_HOST=`hub-show -s $STACK -q '.parameters.component.ingress.fqdn'`
+export HUB_DOCKER_HOST=`hub-show -s $STACK -q '.parameters.component.docker.auth.host'`
+export HUB_DOCKER_USER=`hub-show -s $STACK  -q '.parameters.component.docker.auth.basic.username'`
+export HUB_DOCKER_PASS=Harbor12345
+export SKAFFOLD_DEFAULT_REPO=`hub-show -s $STACK -q '.parameters.component.docker.auth.host'`/library
+export SKAFFOLD_PROFILE=incluster
+export KUBECONFIG=$KUBECONFIG
+export HUB_CONTEXT=$HUB_CONTEXT
+"
+echo "$TMPL"
