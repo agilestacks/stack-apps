@@ -26,7 +26,7 @@ template + {
         local prts = std.split(fullpath, "/"),
         local f    = prts[std.length(prts)-1],
         local b1   = std.strReplace(f, ".yaml", ""),
-        local b2   = std.strReplace(f, "kubeconfig.", ""),
+        local b2   = std.strReplace(b1, "kubeconfig.", ""),
         name: b2,
         path: fullpath,
     }
