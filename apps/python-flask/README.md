@@ -225,15 +225,73 @@ Note for *PRODUCTION* use: you might want to disable a remote debug for producti
 # CMD ["python3", "-m", "flask", "run", "--no-debugger", "--no-reload"]
 ENTRYPOINT ["gunicorn", "-b", "0.0.0.0:80", "app"]
 ```
-## First Run
+## Running a Skaffold
  
 1. We do deploy with Skaffold. It is nice and easy. And we have got already a number of predifined tasks in vscodePress `CMD + Shift + P` Then select `Run Task`. Here you should be able to see a number oof predifined tasks. You can customize tasks in `.vscode/tasks.json`
 
 <img src="docs/media/vscode-7.png" alt="Active Namespace" width="483" height="100" />
 
-2. Select a `Skaffold >> dev`
+2. Select a `Skaffold >> dev`. More about skaffold stages can be found [here](https://skaffold.dev/docs/pipeline-stages/)
 
 <img src="docs/media/vscode-8.png" alt="Active Namespace" width="483" height="142" />
+
+Note: `CMD + Shift + B` is a vscode shortcut for a build task.
+
+Alternatively you can run the same command in terminal
+```
+$ source .env   # skip if you have already done this
+$ skaffold dev
+```
+
+You should be able to see somthing like:
+```
+> Executing task: skaffold dev <
+
+Listing files to watch...
+ - rubik
+Generating tags...
+ - rubik -> cluster1-harbor.app.cluster1.bluesky.superhub.io/library/rubik:20200213-174151
+Checking cache...
+ - rubik: Found. Tagging
+Tags used in deployment:
+ - rubik -> cluster1-harbor.app.cluster1.bluesky.superhub.io/library/rubik:20200213-174151@sha256:07b0c3ccebabfb0337e016e59bae20ee5b6cb3b05d6e7f320db98ea45841fce9
+Starting deploy...
+ - deployment.apps/rubik configured
+ - ingress.extensions/rubik configured
+ - secret/rubik-dockerconfig configured
+ - service/rubik configured
+Watching for changes...
+[rubik-76f8bf44f8-tjdrx applicaiton]  * Serving Flask app "app.py"
+[rubik-76f8bf44f8-tjdrx applicaiton]  * Environment: docker
+[rubik-76f8bf44f8-tjdrx applicaiton]  * Debug mode: on
+[rubik-76f8bf44f8-tjdrx applicaiton]  * Running on http://0.0.0.0:80/ (Press CTRL+C to quit)
+```
+
+What just happended?
+
+1. Skaffold have built a docker image wit the applicaiton. See, it was using a developer friendly timestamp in the docker image tag (can be customized via `skaffold.yaml`)
+2. Pushed into a harbor docker registry. To do this it was using a [kaniko](https://github.com/GoogleContainerTools/kaniko). If you prefer to build and push a docker daemon on our worksation, then you can switch to the local profile
+```bash
+export SKAFFOLD_PROFILE=local
+```
+3. Deployed kubernetes manifests from `/k8s` directory (Skaffold also maintains a deployment image)
+4. Waits for changes in the code and rebuild application if needed
+
+Next thing: open the browser and navigate to the ingress. You can use a cluster explorer from Cloud Code tab or observe a `k8s/ingress.yaml`
+
+Alternatively run following command
+```bash
+$ kubectl get ingress --all-namespaces
+
+NAMESPACE     NAME                             HOSTS                                                                                                                   
+default       rubik                            rubik.app.cluster1.bluesky.superhub.io             
+harbor        cluster1-harbor-harbor-ingress   cluster1-harbor.app.cluster1.bluesky.superhub.io   
+...
+```
+
+<img src="docs/media/browser-1.png" alt="Active Namespace" width="525" height="425" />
+
+And here is our application!
 
 ## Setup Kubernetes Cluster
 With the local development environment configured, you’re ready to connect to your Kubernetes cluster.  By running Make, you have generated the necessary configuration files for Kubernetes cluster based on the cluster name selected by `hub-configure` command.
