@@ -3,7 +3,7 @@
 aws     := aws
 kubectl := kubectl
 yq      := yq
-curl    := curl -sSL --silent --create-dirs
+curl    := curl -sSL --create-dirs
 
 APP_DIR             := ..
 DOTENV              := $(APP_DIR)/.env
