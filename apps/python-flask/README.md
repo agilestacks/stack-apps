@@ -219,7 +219,21 @@ A dockerfile takes a python 3.7 and exposes two ports
 * `80` for a flask applicaiton (standart HTTP port)
 * `3000` for ptvsd for remote debug.
 
-Note for *PRODUCTION* use: you might want to disable a remote debug for production use. If you want to do it you need to disable it in both places: `src/app.py` and in the `Dockerfile`. It is also advisable to uncomment a `gunicorn` entrypoint instead of `flask`. But only for production use.
+Note for *PRODUCTION* use: you might want to disable a remote debug for production use. If you want to do it you need to disable it in both places: `src/app.py` and in the `Dockerfile`. It is also advisable to define a [gunicorn](https://gunicorn.org) (or any other WSGI server of your choice) as entrypoint instead of python + flask. But only for production use.
+
+```dockerfile
+# CMD ["python3", "-m", "flask", "run", "--no-debugger", "--no-reload"]
+ENTRYPOINT ["gunicorn", "-b", "0.0.0.0:80", "app"]
+```
+## First Run
+ 
+1. We do deploy with Skaffold. It is nice and easy. And we have got already a number of predifined tasks in vscodePress `CMD + Shift + P` Then select `Run Task`. Here you should be able to see a number oof predifined tasks. You can customize tasks in `.vscode/tasks.json`
+
+<img src="docs/media/vscode-7.png" alt="Active Namespace" width="483" height="100" />
+
+2. Select a `Skaffold >> dev`
+
+<img src="docs/media/vscode-8.png" alt="Active Namespace" width="483" height="142" />
 
 ## Setup Kubernetes Cluster
 With the local development environment configured, you’re ready to connect to your Kubernetes cluster.  By running Make, you have generated the necessary configuration files for Kubernetes cluster based on the cluster name selected by `hub-configure` command.
