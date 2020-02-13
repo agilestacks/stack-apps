@@ -61,6 +61,25 @@
       "options": {
         "cwd": "${workspaceFolder}"
       }
+    },
+    {
+      "type": "shell",
+      "problemMatcher": [],
+      "label": "Run in a browser",
+      "osx": {
+        "command": "open"
+      },
+      "windows": {
+        "command": "explorer.exe"
+      },
+      "args": [
+        "$HUB_INGRESS_HOST"
+      ],
+      "options": {
+        "env": {
+          "HUB_INGRESS_HOST": "http://localhost:5000"
+        }
+      }
     }
   ],
   "inputs": [
