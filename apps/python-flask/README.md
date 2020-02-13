@@ -277,9 +277,18 @@ export SKAFFOLD_PROFILE=local
 3. Deployed kubernetes manifests from `/k8s` directory (Skaffold also maintains a deployment image)
 4. Waits for changes in the code and rebuild application if needed
 
-Next thing: open the browser and navigate to the ingress. You can use a cluster explorer from Cloud Code tab or observe a `k8s/ingress.yaml`
+### Hit the ingress
 
-Alternatively run following command
+There are number of ways how to access deployed application with the Browser.
+
+*Via vscode tasks* Open tasks (`CTRL + Shift + P`) and open: `Run in the browser`
+
+<img src="docs/media/vscode-9.png" alt="Active Namespace" width="483" height="125" />
+
+*Via ingress document*
+Check document in the file: `k8s/ingress.yaml`
+
+*Via command line* with following bash script
 ```bash
 $ kubectl get ingress --all-namespaces
 
