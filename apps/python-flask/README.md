@@ -157,7 +157,7 @@ Examine the configuration files located in .hub directory:
 
 With the local environment configured, you’re ready to launch your application. Typically, you’d have to perform these tasks: first, build a Docker container and tag it. Second, remember to update your Kubernetes manifests to point to the new container image. Third, go back to the command line to execute kubectl run. As you can imagine, this process is tedious and prone to error.
 
-Once the app launches, every time you make a code change you’ll want to preview it locally before deployment. To do this, you’ll need to repeat the steps above all over again. Fortunately, Skaffold is the tool that automatically generates required Kubernetes manifests.  Skaffold also watches for code changes, and once a change is detected, Skaffold automatically initiates the steps to build, push and deploy the new code to a Kubernetes cluster.
+Once the application launches, every time you make a code change you’ll want to preview it locally before deployment. To do this, you’ll need to repeat the steps above all over again. Fortunately, Skaffold is the tool that automatically generates required Kubernetes manifests.  Skaffold also watches for code changes, and once a change is detected, Skaffold automatically initiates the steps to build, push and deploy the new code to a Kubernetes cluster.
 
 To start Skaffold, use the following command
 ```
@@ -194,8 +194,5 @@ You can access the application using the following URL:
 https://rubik.app.stack_name.account_name.superhub.io
 ```
 
-
-
-tool that can bring more control and efficiency to this clunky process.
 
 
