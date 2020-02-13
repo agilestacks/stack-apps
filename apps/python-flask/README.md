@@ -28,28 +28,42 @@ More details about Skaffold are available in the following slide deck [here](TBD
 
 ## Setup an Application
 
+0. Download prerequisites:
+
+For current setup we need the following software to be installed and available for you:
+
+* `vscode`: our IDE for Python. installation instruction [here](https://code.visualstudio.com/docs/setup/mac)
+* `hub`: SuperHub CLI (installation notes below)
+* `skaffold`: to carry Kubrernetes deployments
+* `jq`: JSON parser for SuperHub API routines
+* `yq`: for JSON to YAML conversion
+* `jsonnet`: for code generation
+* `kubectl`: kubernetes client
+* `make`: to carry on code generation routines
+
 1. To start using Hub CLI binary, download and install using the example for your platform.
 
-On MacOS
-
-```
-curl -O https://controlplane.agilestacks.io/dist/hub-cli/hub.darwin_amd64
-mv hub.darwin_amd64 hub
+*On MacOS*
+```bash
+curl -Lo hub https://controlplane.agilestacks.io/dist/hub-cli/hub.darwin_amd64
 chmod +x hub
 sudo mv hub /usr/local/bin
 ```
 
-On Linux
-
-```
-curl -O https://controlplane.agilestacks.io/dist/hub-cli/hub.linux_amd64
-mv hub.linux_amd64 hub
+*On Linux*
+```bash
+curl -Lo hub https://controlplane.agilestacks.io/dist/hub-cli/hub.linux_amd64
 chmod +x hub
 sudo mv hub /usr/local/bin
 ```
 
+2. jq, yq, jsonnet are required.  On MacOs you can install it with the following command:
+```bash 
+$ brew install jq yq jsonnet skaffold kubectl cmake
+```
 
-2. Get application source code
+
+3. Get application source code
 
 ```bash
 $ git clone https://github.com/agilestacks/stack-apps.git
@@ -60,12 +74,13 @@ Let's see  what we have got here:
 ```
 python-flask:
   /.hub             # SuperHub code generation has been located here
+  /.vscode          # Configuration for vscode
   /src              # Our python application has been located here
   /test             # Container structure texts will be here
   Dockerfile        # docker image with your application  
 ```
 
-3. Retrieve SuperHub API Token.
+4. Retrieve SuperHub API Token.
 
 You can retrieve your API token from the (controlplane.agilestacks.io)[https://controlplane.agilestacks.io/#/user/profile]. Or using CLI:
 ```
@@ -84,25 +99,26 @@ $ echo $HUB_TOKEN
 sergd......kieud
 
 $ hub-ls -p harbor -p kubernetes
-abc.superhub.io
-def.superhub.io
+cluster1.bluesky.superhub.io
+cluster2.bluesky.superhub.io
 ```
+Note: that domain names for the clusters are fictional
 
 The code above will validate that `HUB_TOKEN` environment variable has been defined. Then we will use this toke to fetch the list of currently deployed clusters that provide both: `Kubernetes` cluster and `Harbor` private docker registry. This code also confirms that I do have my prerequisites.
 
-4. Apply cluster configuration
+5. Apply cluster configuration
 
 Run the following commands:
 ```bash
-$ hub-configure -s abc.superhub.io
-# where abc.superhub.io is tbe desired cluster for my application (see previous section)
+$ hub-configure -s cluster1.bluesky.superhub.io
+# where cluster1.bluesky.superhub.io is tbe desired cluster for my application (see previous section)
 
 $ source .hub/current
 $ kubectl cluster-info
-Kubernetes master is running at https://abc.superhub.io
+Kubernetes master is running at https://cluster1.bluesky.superhub.io
 ```
 
-What just happened? I declared via `hub-configure` that I am willing to deploy my Python applicaiton to the cluster `abc.superhub.io` (it will be different name you). Then SuperHub retrieved a configuration to the file and kubeconfig and stored in the directory: `.hub/env` and created a symlink to point to actual cluster configuration `.hub/current`
+What just happened? I declared via `hub-configure` that I am willing to deploy my Python applicaiton to the cluster `cluster1.bluesky.superhub.io` (it will be different name you). Then SuperHub retrieved a configuration to the file and kubeconfig and stored in the directory: `.hub/env` and created a symlink to point to actual cluster configuration `.hub/current`
 
 Can I change my customize or cluster configuration? The short answer is: YES. More information about how to customize (or extend) my app can be found [here](TBD)
 
@@ -110,11 +126,6 @@ Last but not least. Let's generate applicaiton configuration. Please note you ne
 
 ```bash
 $ make -C ".hub" generate
-```
-
-Note: jq, yq, jsonnet are required.  On MacOs you can install it with the following command:
-```bash 
-$ brew install jq yq jsonnet skaffold
 ```
 
 More about code generation and conventions can be found [here](TBD) 
@@ -142,16 +153,16 @@ $ code \
 $ code -n .
 ```
 
-
 ## Setup Kubernetes Cluster
 With the local development environment configured, you’re ready to connect to your Kubernetes cluster.  By running Make, you have generated the necessary configuration files for Kubernetes cluster based on the cluster name selected by `hub-configure` command.
 
 Examine the configuration files located in .hub directory:
+```
 /python-flask/.hub/env/kubeconfig.cluster_name.superhub.io.yaml
 /python-flask/.hub/env/configure
 /python-flask/.hub/.vscode/settings.jsonnet
 /python-flask/.hub/.vscode/launch.jsonnet
-
+```
 
 ## Start Running and Debugging your App
 
@@ -160,7 +171,7 @@ With the local environment configured, you’re ready to launch your application
 Once the application launches, every time you make a code change you’ll want to preview it locally before deployment. To do this, you’ll need to repeat the steps above all over again. Fortunately, Skaffold is the tool that automatically generates required Kubernetes manifests.  Skaffold also watches for code changes, and once a change is detected, Skaffold automatically initiates the steps to build, push and deploy the new code to a Kubernetes cluster.
 
 To start Skaffold, use the following command
-```
+```bash
 skaffold dev -p incluster
 ```
 
@@ -169,14 +180,14 @@ You should be able to see the following output:
 Listing files to watch...
  - rubik
 Generating tags...
- - rubik -> ml1-harbor.svc.ml1.demo51.superhub.io/library/rubik:20200212-155028
+ - rubik -> harbor.svc.cluster1.bluesky.superhub.io/library/rubik:20200212
 Checking cache...
  - rubik: Not found. Building
 Creating docker config secret [docker-cfg]...
 Building [rubik]...
 ...
 Tags used in deployment:
- - rubik -> ml1-harbor.svc.ml1.demo51.superhub.io/library/rubik:20200212-155028@sha256:c088e117c4b81d160dd3444ef1c28a6d93849f514b7a814a0dce8dd80b567193
+ - rubik -> harbor.svc.cluster1.bluesky.superhub.io/library/rubik:20200212
 Starting deploy...
  - deployment.apps/rubik created
  - ingress.extensions/rubik created
@@ -191,8 +202,7 @@ Watching for changes...
 
 You can access the application using the following URL:
 ```
-https://rubik.app.stack_name.account_name.superhub.io
+https://rubik.app.cluster1.bluesky.superhub.io
 ```
-
 
 
