@@ -1,6 +1,7 @@
 .pytest_cache
 /.vscode/settings.json
 /.vscode/launch.json
+/.vscode/tasks.json
 .venv
 __pycache__
 *.egg-info
@@ -15,6 +16,7 @@ __pycache__
 /.hub/dockerconfig.json
 /.hub/current
 /.hub/templates/*.json
+!/.hub/templates/vscode-*.json
 /skaffold.yaml
 skaffold.json
 k8s/*.yaml

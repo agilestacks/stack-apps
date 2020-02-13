@@ -6,13 +6,14 @@ yq      := yq
 curl    := curl -sSL --silent --create-dirs
 
 APP_DIR             := ..
+DOTENV              := $(APP_DIR)/.env
 TEMPLATES_DIR       := templates
 LIBSONNET_DIR       := lib
 
 LIBSONNET           := $(LIBSONNET_DIR)/k8s.libsonnet
 LIBSONNET           += $(LIBSONNET_DIR)/dockerconfig.libsonnet
 
-JSONNET_FILES       := $(wildcard *.jsonnet .*.jsonnet **/*.jsonnet .**/*.jsonnet)
+JSONNET_FILES       := $(wildcard .*.jsonnet **/*.jsonnet .**/*.jsonnet)
 JSON_JSONNET        := $(patsubst %.jsonnet,$(APP_DIR)/%.json,$(filter-out %.yaml.jsonnet,$(JSONNET_FILES)))
 YAML_JSONNET        := $(patsubst %.jsonnet,$(APP_DIR)/%,$(filter %.yaml.jsonnet,$(JSONNET_FILES)))
 TEMPLATES           := $(addsuffix .json,$(basename $(wildcard $(TEMPLATES_DIR)/*.yaml)))
@@ -48,7 +49,9 @@ $(JSON_JSONNET): $(LIBSONNET) $(TEMPLATES)
 	@ $(jsonnet) "$(fname).jsonnet" > $@
 	@ echo "Generated: $@"
 
-generate: $(YAML_JSONNET) $(JSON_JSONNET)
+generate:
+	@ test -f $(DOTENV) && source $(DOTENV); \
+		$(MAKE) $(YAML_JSONNET) $(JSON_JSONNET)
 
 clean:
 	@ echo $(YAML_JSONNET) $(JSON_JSONNET) | tr ' ' '\n' | sed -e 's/^/Deleting: /'

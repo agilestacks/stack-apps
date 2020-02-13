@@ -17,39 +17,16 @@
       "problemMatcher": []
     },
     {
-      "label": "Skaffold build",
+      "label": "Skaffold",
       "type": "shell",
       "command": "skaffold",
-      "args": ["build"],
-      "group": "build",
-      "options": {
-        "env": {
-          "SKAFFOLD_PROFILE": "incluster"
-        },
-        "cwd": "${workspaceFolder}"
-      }
-    },
-    {
-      "label": "Skaffold dev",
-      "type": "shell",
-      "command": "skaffold",
-      "args": ["dev"],
-      "group": "build",
-      "options": {
-        "env": {
-          "SKAFFOLD_PROFILE": "incluster"
-        },
-        "cwd": "${workspaceFolder}",
-        "isDefault": true
-      }
-    },
-    {
-      "label": "Skaffold debug",
-      "type": "shell",
-      "command": "skaffold",
-      "args": ["debug"],
+      "args": [
+        "${input:skaffoldArg}"
+      ],
+      "problemMatcher": [],
       "group": {
-        "kind": "build"
+        "kind": "build",
+        "isDefault": true
       },
       "options": {
         "env": {
@@ -59,10 +36,13 @@
       }
     },
     {
-      "label": "SuperHub: generate",
+      "label": "SuperHub",
       "type": "shell",
       "command": "make",
-      "args": ["clean", "generate"],
+      "problemMatcher": [],
+      "args": [
+        "${input:superhubArg}"
+      ],
       "group": "none",
       "options": {
         "cwd": "${workspaceFolder}/.hub"
@@ -73,12 +53,41 @@
       "type": "shell",
       "command": "kubectl",
       "args": [
-        "delete", "secret", "docker-cfg"
+        "delete",
+        "secret",
+        "docker-cfg"
       ],
       "group": "none",
       "options": {
         "cwd": "${workspaceFolder}"
       }
+    }
+  ],
+  "inputs": [
+    {
+      "id": "skaffoldArg",
+      "description": "Skaffold command",
+      "options": [
+        "dev",
+        "run",
+        "build",
+        "deploy",
+        "delete",
+        "debug"
+      ],
+      "default": "dev",
+      "type": "pickString"
+    },
+    {
+      "id": "superhubArg",
+      "description": ".hub make command",
+      "options": [
+        "clean generate",
+        "clean",
+        "generate"
+      ],
+      "default": "clean generate",
+      "type": "pickString"
     }
   ]
 }
