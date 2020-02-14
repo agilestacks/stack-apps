@@ -57,5 +57,9 @@ clean:
 	@ echo $(YAML_JSONNET) $(JSON_JSONNET) | tr ' ' '\n' | sed -e 's/^/Deleting: /'
 	@ rm -f $(YAML_JSONNET) $(JSON_JSONNET) $(LIBSONNET) $(TEMPLATES)
 
-.PHONY: generate clean
+ifneq ($(FORCE),)
+PHONIES := $(YAML_JSONNET) $(JSON_JSONNET)
+endif
+
+.PHONY: generate clean $(PHONIES)
 .DELETE_ON_ERROR: $(YAML_JSONNET) $(JSON_JSONNET) $(LIBSONNET) $(TEMPLATES)
