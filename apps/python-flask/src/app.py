@@ -18,8 +18,10 @@ if application.config["PTVSD_PORT"] \
     import ptvsd
     ptvsd.enable_attach(address=('0.0.0.0', application.config["PTVSD_PORT"]))
 
+
 WORDS = [
-    "skaffold", "flask", "ptvs", "vscode"
+    'helm', 'kustomize', 'kubernetes', 'aws', 'gcp', 'azure', 
+    'terraform', 'docker', 'shell', 'vault', 'istio'
 ]
 
 def get_words(howmany=1):
