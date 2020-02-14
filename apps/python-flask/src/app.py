@@ -4,6 +4,7 @@ from flask_json import json_response
 from uptime import uptime
 from random import sample
 from os import environ
+import ptvsd
 
 application = Flask(__name__)
 application.config.from_pyfile(f"conf/{application.config['ENV']}.py")
@@ -11,12 +12,9 @@ application.config.from_pyfile(f"conf/{application.config['ENV']}.py")
 # Remote debug settings
 # We can debug debug or code reload: cannot do both
 # Reload controlled as environment variable
-if application.config["PTVSD_PORT"] \
-    and int(environ.get("FLASK_RUN_RELOAD", 0)) == 0  \
-    and application.debug:
-
-    import ptvsd
-    ptvsd.enable_attach(address=('0.0.0.0', application.config["PTVSD_PORT"]))
+if application.debug and int(environ.get("FLASK_RUN_RELOAD", 0)) == 0:
+    application.logger.info("Starting `ptvs` on port: 3000")
+    ptvsd.enable_attach(address=('0.0.0.0', 3000))
 
 
 WORDS = [
