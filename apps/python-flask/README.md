@@ -309,12 +309,15 @@ default       rubik                            rubik.app.cluster1.bluesky.superh
 harbor        cluster1-harbor-harbor-ingress   cluster1-harbor.app.cluster1.bluesky.superhub.io   
 ...
 ```
+Based on the output above, you can access the application using the following URL:
+[https://rubik.app.cluster1.bluesky.superhub.io](https://rubik.app.cluster1.bluesky.superhub.io)
+
 
 <img src="docs/media/browser-1.png" alt="Active Namespace" width="525" />
 
 Congratulations, you have successfully deployed Python Flask application on Kubernetes!
 
-## Code reload with in the Pod
+## Code reload inside in the running Pod
 
 Once a `skaffold dev` command is running. You should see following log in the terminal
 ```
@@ -325,7 +328,7 @@ Watching for changes...
 [rubik-7d9655fcdc-dv8fv applicaiton]  * Running on http://0.0.0.0:80/ (Press CTRL+C to quit)
 ```
 
-And yes, skaffold is watching for changes in the application source code. Once application file has been changed it will sync it up to the container (details read [here](https://skaffold.dev/docs/pipeline-stages/filesync/)). This operation doesn't require a new image build. Let's find out at which files and directories skaffold is looking. Open a `skaffold.yaml` and you should be able to see the following:
+Skaffold is watching for changes in the application source code. Once application file has been changed it will sync it up to the container (details read [here](https://skaffold.dev/docs/pipeline-stages/filesync/)). This operation doesn't require a new image build. Let's find out at which files and directories skaffold is looking. Open a `skaffold.yaml` and you should be able to see the following:
 
 ```yaml
 build:
@@ -390,11 +393,11 @@ As you might notice, we cannot have both automated code sync or remote debug. Th
 ENV FLASK_RUN_RELOAD 0
 ```
 
-2. Skaffold will rebuild a container automatically. You can see the progress terminal window of `skaffold dev`
+2. Skaffold will rebuild a container automatically. You can see the progress in terminal window of `skaffold dev`
 
 <img src="docs/media/vscode-10.png" align="right" style="float: right;" alt="Run debugger" width="333" />
 
-3. Once application has been rebuilt and pod restarted you should be able to see welcome message again
+3. Once the application has been rebuilt and pod restarted you should be able to see welcome message again:
 
 ```
 ...
@@ -410,18 +413,17 @@ Watching for changes...
 
 4. Open a `Debug` and select a debug task: `Attach to running container` (see screenshot above)
 
-Once again: make sure you are running flask in with 'no-reload' option. Alternatively to the `Dockerfile`, auto-reload control flag `FLASK_RUN_RELOAD` can be declared in `k8s/deployment.yaml` as a pod env
+Important note: make sure you are running flask in with 'no-reload' option. In addition to the `Dockerfile`, auto-reload control flag `FLASK_RUN_RELOAD` can be declared in `k8s/deployment.yaml` as a pod env.
 
 You can now place a breakpoint `src/app.py`. The good method to debug `get_words()` is a good function.
 
-5. Open browser again (`CMD+Shift+P >> Run Task >> Open in browser`) and an endpoint event with your mouse, by moving mouse hover Rubik's cube
+5. Open your application in a web browser (`CMD+Shift+P >> Run Task >> Open in browser`) and trigger an endpoint event with your mouse, by moving mouse hover Rubik's cube
 
 <img src="docs/media/vscode-11.png" alt="Rubik's cube" width="525" />
 
-Hurray!
-
 # Conclusion
 
-That was a bit long, however we cowered a lot! Remote development and can be tricky to setup and often a complex task to do. If you do a microsevices then you might find yourself to solve same problem again and again. 
+Congratulations! You have learned how to use Hub CLI, VS Code, and Skaffold to configure, deploy, and debug an application on Kubernetes. Superhub is designed to help developers deploy applications to Kubernetes without having to write & maintain infrastructure configuration code such as k8s manifests. Skaffold is a tool that helps simplify development and debugging in a local environment. The Visual Studio Code Kubernetes Tools extension provide code editing and debugging capabilities for your applications running on Kubernetes clusters. 
 
-Follow up us in the next tutorial (Coming soon). We will show how to connect your applicaiton with the database component.
+In the next tutorial (coming soon), you can learn about how to connect your application with a database service.
+
