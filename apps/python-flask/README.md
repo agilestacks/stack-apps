@@ -111,18 +111,18 @@ The code above will validate that `HUB_TOKEN` environment variable has been defi
 Run the following commands:
 ```bash
 $ hub-configure -s cluster1.bluesky.superhub.io
-# where cluster1.bluesky.superhub.io is tbe desired cluster for my application (see previous section)
+# cluster1.bluesky.superhub.io is the target cluster 
 
 $ source .hub/current
 $ kubectl cluster-info
 Kubernetes master is running at https://cluster1.bluesky.superhub.io
 ```
 
-What just happened? I declared via `hub-configure` that I am willing to deploy my Python applicaiton to the cluster `cluster1.bluesky.superhub.io` (it will be different name you). Then SuperHub retrieved a configuration to the file and kubeconfig and stored in the directory: `.hub/env` and created a symlink to point to actual cluster configuration `.hub/current`
+`hub-configure` command is used to specify the cluster name where the application is going to be deployed.  Please replace   `cluster1.bluesky.superhub.io` with the name of your cluster. When you executed `hub-configure` command, SuperHub saved Kubernetes cluster configuration file (kubeconfig) in the following directory: `.hub/env`.  Also, it created a symlink pointer to the actual cluster configuration: `.hub/current`
 
-Can I change my customize or cluster configuration? The short answer is: YES. More information about how to customize (or extend) my app can be found [here](TBD)
+For more information about how to customize or extend the cluster configuration refer to [here](TBD)
 
-Last but not least. Let's generate applicaiton configuration. Please note you need to regenerate configuration every time when you change your cluster.
+Next, you will generate the application configuration files. You need to generate new configuration files each time you change your cluster.
 
 ```bash
 $ make -C ".hub" generate
@@ -137,7 +137,16 @@ Generated: ../.vscode/settings.json
 Generated: ../.vscode/tasks.json
 ```
 
-We have now generated a set of artifacts that will be used later by the Skaffold. Here I will point the most important ones:
+By running Make, you have generated the necessary configuration files for Kubernetes. 
+Examine the configuration files located in .hub directory:
+```
+/python-flask/.hub/env/kubeconfig.cluster_name.superhub.io.yaml
+/python-flask/.hub/env/configure
+/python-flask/.hub/.vscode/settings.jsonnet
+/python-flask/.hub/.vscode/launch.jsonnet
+```
+
+You have now generated a set of configuration files to deploy the appplication with Skaffold. The most important files are:
 
 * `skaffold.yaml`: a configuration file for Skaffold
 * `k8s/*.yaml`: kubernetes deployment manifests
@@ -148,7 +157,8 @@ More about code generation and conventions can be found [here](TBD)
 
 ## Setup Development Environment
 
-We have got our applicaiton configured. The next step is to setup the IDE. For python development we will use VS Code with intalled [Google CloudCode](https://cloud.google.com/code/docs/vscode/). Alternative setup for IntelliJ can be found [here](https://cloud.google.com/code/docs/intellij/)
+For Python development we will use VS Code with additional plugins such as [Google CloudCode](https://cloud.google.com/code/docs/vscode/). 
+Alternative setup for IntelliJ can be found [here](https://cloud.google.com/code/docs/intellij/)
 
 1. Install required plugins
 
@@ -169,17 +179,19 @@ $ code \
 $ code -n .
 ```
 
-## VScode and Skaffold
+## VS Code and Skaffold
 
-In the previous section you were running `make -C ".hub" generate`. This command generated vscode configuaration that you can observe `/.vscode` directory. We have also installed all necessary vscode (extensions)[.vscode/extensions.json]. Perhaps most important is the  (Cloud Code)[https://cloud.google.com/code/docs/vscode/], an extension for Skaffold.
+With the local development environment configured, you’re ready to launch your application. Typically, you’d have to perform several tedious and error-prone tasks to build Docker containers and create Kubernetes configuratin files. Once the application launches, every time you make a code change you’ll want to preview it locally before deployment. Fortunately, Skaffold is the tool that automatically generates required Kubernetes manifests.  Skaffold also watches for code changes, and once a change is detected, Skaffold automatically initiates the steps to build, push and deploy the new code to a Kubernetes cluster.
+
+In the previous section you were running `make -C ".hub" generate`. This command generated VS Code configuaration files that you can view in `/.vscode` directory. You have also installed all necessary VS Code (extensions)[.vscode/extensions.json]. Perhaps the most important is the (Cloud Code)[https://cloud.google.com/code/docs/vscode/], an extension for Skaffold.
 
 ### Select a namespace for Skaffold
 <img src="docs/media/vscode-5.png" align="right" style="float: right;" alt="Active Namespace" width="309" height="247" />
- On the left side you should be able to see a tab with `<>` icon (Cloud Code). Please select it. Then you should be able to see a kubernetes cluster. Select a target namespace (right click on desired namespace) for the application (`default` should be good enough).  We have no oppinion where the applicaiton should be installed. Skaffold will deliver it to the current actual namespace.
+ On the left side you should be able to see a tab with `<>` icon (Cloud Code). Please select it. Then you should be able to see a kubernetes cluster. Select a target namespace (right click on desired namespace) for the application (`default` should be good enough).  The target namespace for your application is configurable.  Skaffold will deploy the app in the selected target namespace.
  
-HANDY: If you would like to see a Kubernetes dashboard view rather than cluster explorer. Select a cluster and `Right click >> Open Dashboard` should do the trick. 
+Hint: To open Kubernetes Dashboard, select the cluster and `Right click >> Open Dashboard` 
 
-By doing this excersise we also validated vscode to Kubernetes cluster connectivity. Once you are done observing the cluster, it is time to switch to the source code. Open "Explorer" (`Shift + Cmd + E`).
+In this step you have validated connectivity between VS Code and a Kubernetes cluster. Spend a few minutes exploring the cluster. Next, switch to the source code view: open "Explorer" (`Shift + Cmd + E`).
 
 ## Walk through the source code
 
@@ -225,9 +237,9 @@ Note for *PRODUCTION* use: you might want to disable a remote debug for producti
 # CMD ["python3", "-m", "flask", "run", "--no-debugger", "--no-reload"]
 ENTRYPOINT ["gunicorn", "-b", "0.0.0.0:80", "app"]
 ```
-## Running a Skaffold
+## Running Skaffold
  
-1. We do deploy with Skaffold. It is nice and easy. And we have got already a number of predifined tasks in vscodePress `CMD + Shift + P` Then select `Run Task`. Here you should be able to see a number oof predifined tasks. You can customize tasks in `.vscode/tasks.json`
+1. You will deploy the application with Skaffold. To run a number of predifined tasks in VS Code, press `CMD + Shift + P` Then select `Run Task`. Here you should be able to see a number oof predifined tasks. You can customize tasks in `.vscode/tasks.json`
 
 <img src="docs/media/vscode-7.png" alt="Active Namespace" width="483" height="100" />
 
@@ -243,7 +255,7 @@ $ source .env   # skip if you have already done this
 $ skaffold dev
 ```
 
-You should be able to see somthing like:
+You should be able to see the following output:
 ```
 > Executing task: skaffold dev <
 
@@ -300,55 +312,4 @@ harbor        cluster1-harbor-harbor-ingress   cluster1-harbor.app.cluster1.blue
 
 <img src="docs/media/browser-1.png" alt="Active Namespace" width="525" height="425" />
 
-And here is our application!
-
-## Setup Kubernetes Cluster
-With the local development environment configured, you’re ready to connect to your Kubernetes cluster.  By running Make, you have generated the necessary configuration files for Kubernetes cluster based on the cluster name selected by `hub-configure` command.
-
-Examine the configuration files located in .hub directory:
-```
-/python-flask/.hub/env/kubeconfig.cluster_name.superhub.io.yaml
-/python-flask/.hub/env/configure
-/python-flask/.hub/.vscode/settings.jsonnet
-/python-flask/.hub/.vscode/launch.jsonnet
-```
-
-## Start Running and Debugging your App
-
-With the local environment configured, you’re ready to launch your application. Typically, you’d have to perform these tasks: first, build a Docker container and tag it. Second, remember to update your Kubernetes manifests to point to the new container image. Third, go back to the command line to execute kubectl run. As you can imagine, this process is tedious and prone to error.
-
-Once the application launches, every time you make a code change you’ll want to preview it locally before deployment. To do this, you’ll need to repeat the steps above all over again. Fortunately, Skaffold is the tool that automatically generates required Kubernetes manifests.  Skaffold also watches for code changes, and once a change is detected, Skaffold automatically initiates the steps to build, push and deploy the new code to a Kubernetes cluster.
-
-To start Skaffold, use the following command
-```bash
-skaffold dev -p incluster
-```
-
-You should be able to see the following output:
-```
-Listing files to watch...
- - rubik
-Generating tags...
- - rubik -> harbor.svc.cluster1.bluesky.superhub.io/library/rubik:20200212
-Checking cache...
- - rubik: Not found. Building
-Creating docker config secret [docker-cfg]...
-Building [rubik]...
-...
-Tags used in deployment:
- - rubik -> harbor.svc.cluster1.bluesky.superhub.io/library/rubik:20200212
-Starting deploy...
- - deployment.apps/rubik created
- - ingress.extensions/rubik created
- - secret/rubik-dockerconfig created
- - service/rubik created
-Watching for changes...
-[rubik-d54d9f4bc-cddnb applicaiton]  * Serving Flask app "app.py"
-[rubik-d54d9f4bc-cddnb applicaiton]  * Environment: docker
-[rubik-d54d9f4bc-cddnb applicaiton]  * Debug mode: on
-[rubik-d54d9f4bc-cddnb applicaiton]  * Running on http://0.0.0.0:80/ (Press CTRL+C to quit)
-```
-
-You can access the application using the following URL: https://rubik.app.cluster1.bluesky.superhub.io
-
-
+Congratulations, you have successfully deployed Python Flask application on Kubernetes!
