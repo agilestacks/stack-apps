@@ -7,6 +7,7 @@ ENV FLASK_ENV         docker
 ENV FLASK_DEBUG       1
 ENV FLASK_RUN_HOST    0.0.0.0
 ENV FLASK_RUN_PORT    80
+ENV FLASK_RUN_RELOAD  1
 ENV FLASK_SKIP_DOTENV 1
 
 WORKDIR /app
@@ -22,4 +23,4 @@ RUN pip install \
 EXPOSE ${FLASK_RUN_PORT}
 EXPOSE ${PTVSD_PORT}
 
-CMD ["python3", "-m", "flask", "run", "--no-debugger", "--no-reload"]
+CMD ["python3", "-m", "flask", "run"]

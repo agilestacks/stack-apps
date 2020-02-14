@@ -36,12 +36,13 @@
       }
     },
     {
-      "label": "SuperHub",
+      "label": "SuperHub: generate all",
       "type": "shell",
       "command": "make",
       "problemMatcher": [],
       "args": [
-        "${input:superhubArg}"
+        "generate",
+        "FORCE=1"
       ],
       "group": "none",
       "options": {
@@ -49,7 +50,20 @@
       }
     },
     {
-      "label": "Delete secret docker-cfg",
+      "label": "SuperHub: genrate missing files",
+      "type": "shell",
+      "command": "make",
+      "problemMatcher": [],
+      "args": [
+        "generate"
+      ],
+      "group": "none",
+      "options": {
+        "cwd": "${workspaceFolder}/.hub"
+      }
+    },
+    {
+      "label": "Kubernetes: delete kaniko secret",
       "type": "shell",
       "command": "kubectl",
       "args": [
@@ -65,7 +79,7 @@
     {
       "type": "shell",
       "problemMatcher": [],
-      "label": "Run in a browser",
+      "label": "Ingress: open in browser",
       "osx": {
         "command": "open"
       },
@@ -73,13 +87,8 @@
         "command": "explorer.exe"
       },
       "args": [
-        "$HUB_INGRESS_HOST"
-      ],
-      "options": {
-        "env": {
-          "HUB_INGRESS_HOST": "http://localhost:5000"
-        }
-      }
+        "https://$HUB_APP_NAME.$HUB_INGRESS_HOST"
+      ]
     }
   ],
   "inputs": [
@@ -95,17 +104,6 @@
         "debug"
       ],
       "default": "dev",
-      "type": "pickString"
-    },
-    {
-      "id": "superhubArg",
-      "description": ".hub make command",
-      "options": [
-        "clean generate",
-        "clean",
-        "generate"
-      ],
-      "default": "clean generate",
       "type": "pickString"
     }
   ]

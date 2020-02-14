@@ -3,18 +3,23 @@ from flask import Response, Flask, render_template, request
 from flask_json import json_response
 from uptime import uptime
 from random import sample
+from os import environ
 
 application = Flask(__name__)
 application.config.from_pyfile(f"conf/{application.config['ENV']}.py")
 
 # Remote debug settings
-if application.config["PTVSD_PORT"]:
+# We can debug debug or code reload: cannot do both
+# Reload controlled as environment variable
+if application.config["PTVSD_PORT"] \
+    and int(environ.get("FLASK_RUN_RELOAD", 0)) == 0  \
+    and application.debug:
+
     import ptvsd
     ptvsd.enable_attach(address=('0.0.0.0', application.config["PTVSD_PORT"]))
 
 WORDS = [
-    'helm', 'kustomize', 'kubernetes', 'aws', 'gcp', 'azure', 'terraform', 'docker', 'shell',
-    'vault', 'istio'
+    "skaffold", "flask", "ptvs", "vscode"
 ]
 
 def get_words(howmany=1):
@@ -56,6 +61,5 @@ def status():
 if __name__ == "__main__":
     application.run(
       host=application.config.get('HOST'),
-      port=application.config.get('PORT'),
-      debug=application.config.get('DEBUG', False),
+      port=application.config.get('PORT')
     )
