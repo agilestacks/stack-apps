@@ -241,11 +241,11 @@ ENTRYPOINT ["gunicorn", "-b", "0.0.0.0:80", "app"]
  
 1. You will deploy the application with Skaffold. To run a number of predifined tasks in VS Code, press `CMD + Shift + P` Then select `Run Task`. Here you should be able to see a number oof predifined tasks. You can customize tasks in `.vscode/tasks.json`
 
-<img src="docs/media/vscode-7.png" alt="Active Namespace" width="483" height="100" />
+<img src="docs/media/vscode-7.png" alt="Active Namespace" width="483" />
 
 2. Select a `Skaffold >> dev`. More about skaffold stages can be found [here](https://skaffold.dev/docs/pipeline-stages/)
 
-<img src="docs/media/vscode-8.png" alt="Active Namespace" width="483" height="142" />
+<img src="docs/media/vscode-8.png" alt="Active Namespace" width="483" />
 
 Note: `CMD + Shift + B` is a vscode shortcut for a build task.
 
@@ -295,7 +295,7 @@ There are number of ways how to access deployed application with the Browser.
 
 *Via vscode tasks* Open tasks (`CTRL + Shift + P`) and open: `Run in the browser`
 
-<img src="docs/media/vscode-9.png" alt="Active Namespace" width="483" height="125" />
+<img src="docs/media/vscode-9.png" alt="Active Namespace" width="483" />
 
 *Via ingress document*
 Check document in the file: `k8s/ingress.yaml`
@@ -310,6 +310,118 @@ harbor        cluster1-harbor-harbor-ingress   cluster1-harbor.app.cluster1.blue
 ...
 ```
 
-<img src="docs/media/browser-1.png" alt="Active Namespace" width="525" height="425" />
+<img src="docs/media/browser-1.png" alt="Active Namespace" width="525" />
 
 Congratulations, you have successfully deployed Python Flask application on Kubernetes!
+
+## Code reload with in the Pod
+
+Once a `skaffold dev` command is running. You should see following log in the terminal
+```
+Watching for changes...
+[rubik-7d9655fcdc-dv8fv applicaiton]  * Serving Flask app "app.py"
+[rubik-7d9655fcdc-dv8fv applicaiton]  * Environment: docker
+[rubik-7d9655fcdc-dv8fv applicaiton]  * Debug mode: on
+[rubik-7d9655fcdc-dv8fv applicaiton]  * Running on http://0.0.0.0:80/ (Press CTRL+C to quit)
+```
+
+And yes, skaffold is watching for changes in the application source code. Once application file has been changed it will sync it up to the container (details read [here](https://skaffold.dev/docs/pipeline-stages/filesync/)). This operation doesn't require a new image build. Let's find out at which files and directories skaffold is looking. Open a `skaffold.yaml` and you should be able to see the following:
+
+```yaml
+build:
+  artifacts:
+  - image: rubik
+    sync:
+      manual:
+      - dest: /app
+        src: src/**/*.py
+        strip: src/
+      - dest: /app
+        src: src/static/**
+        strip: src/
+```
+
+So, what we can do is to open a file `src/app.py` and change following code
+```python
+WORDS = [
+    'helm', 'kustomize', 'kubernetes', 'aws', 'gcp', 'azure',
+    'terraform', 'docker', 'shell', 'vault', 'istio'
+]
+```
+
+Let's add some more words into array. For example: `"skaffold", "flask", "ptvs", "vscode"` so our code will look like
+```python
+WORDS = [
+    'helm', 'kustomize', 'kubernetes', 'aws', 'gcp', 'azure',
+    'terraform', 'docker', 'shell', 'vault', 'istio',
+    "skaffold", "flask", "ptvs", "vscode"
+]
+```
+Save the file (`CMD+S`)
+
+Now my skaffold log looks like the following
+```
+Watching for changes...
+[rubik-7d9655fcdc-dv8fv applicaiton]  * Serving Flask app "app.py"
+[rubik-7d9655fcdc-dv8fv applicaiton]  * Environment: docker
+[rubik-7d9655fcdc-dv8fv applicaiton]  * Debug mode: on
+[rubik-7d9655fcdc-dv8fv applicaiton]  * Running on http://0.0.0.0:80/ (Press CTRL+C to quit)
+Syncing 1 files for cluster1-harbor.app.cluster1.bluesky.superhub.io/library/rubik
+Watching for changes...
+```
+
+If I open a browser (`CMD+Shift+P >> Run Task >> Open in browser`). Move your mouse cursor over the Rubik's kube. It will generate some `/gimme` endpoint events. You may notice some new words, like we did.
+
+<img src="docs/media/browser-2.png" alt="Rubik's cube" width="525" />
+
+## Remote debugging of the Pod
+
+Now let's do some debugging. This is a bit tricky because, our python application has been wrapped into a docker container, which is running inside kubernetes. So, we will use a tool chain of:
+* `Visual Studio Code` - IDE, of course
+* `ptvsd` - Python debugger for vscode
+* Docker should expose port `3000` (can be any)
+* Task in `launch.json` in vscode should point to the same port (`3000`)
+* `Flask` application should be running wiht `--no-reload`, in our case controlled via environment variable `FLASK_RUN_RELOAD=0`
+
+As you might notice, we cannot have both automated code sync or remote debug. These things are a bit conflicting by it's nature. Good news, you don't need to redeploy the application. Skaffold will do it for you. To enable remote debug here is what you need to do:
+
+1. Modify a `Dockerfile` (see below) and save:
+```dockerfile
+ENV FLASK_RUN_RELOAD 0
+```
+
+2. Skaffold will rebuild a container automatically. You can see the progress terminal window of `skaffold dev`
+
+<img src="docs/media/vscode-10.png" align="right" style="float: right;" alt="Run debugger" width="333" />
+
+3. Once application has been rebuilt and pod restarted you should be able to see welcome message again
+
+```
+...
+Starting deploy...
+ - deployment.apps/rubik configured
+Watching for changes...
+
+* Serving Flask app "app.py"
+* Environment: docker
+* Debug mode: on
+* Running on http://0.0.0.0:80/ (Press CTRL+C to quit)
+```
+
+4. Open a `Debug` and select a debug task: `Attach to running container` (see screenshot above)
+
+Once again: make sure you are running flask in with 'no-reload' option. Alternatively to the `Dockerfile`, auto-reload control flag `FLASK_RUN_RELOAD` can be declared in `k8s/deployment.yaml` as a pod env
+
+You can now place a breakpoint `src/app.py`. The good method to debug `get_words()` is a good function.
+
+5. Open browser again (`CMD+Shift+P >> Run Task >> Open in browser`) and an endpoint event with your mouse, by moving mouse hover Rubik's cube
+
+<img src="docs/media/vscode-11.png" alt="Rubik's cube" width="525" />
+
+Hurray!
+
+# Conclusion
+
+That was a bit long, however we cowered a lot! Remote development and can be tricky to setup and often a complex task to do. If you do a microsevices then you might find yourself to solve same problem again and again. 
+
+Follow up us in the next tutorial (Coming soon). We will show how to connect your applicaiton with the database component.
