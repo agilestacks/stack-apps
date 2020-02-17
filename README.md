@@ -8,5 +8,5 @@ All applcitions here has been packaged has been available as series of easy-to h
 
 ### Python Flask
 
-Applicaiton that provides end-to-end python developer experience with: Python + Flask + Skaffold + VS Code. It includes templates for VSCode to do a remote debug, and code reload in kubernetes pod
+[This](master/apps/python-flask) applicaiton that provides end-to-end python developer experience with: Python + Flask + Skaffold + VS Code. It includes templates for VSCode to do a remote debug, and code reload in kubernetes pod
 
