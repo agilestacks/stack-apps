@@ -6,8 +6,8 @@ This is home for the applicaitons documentation
 
 We use a [Jsonnet](https://jsonnet.org) as a templating a default templating DSL for YAML and JSON configuration
 
-Q: Why can't I use a mustache template for my yaml/jsnon file?
-A: You can, however this is an anti-pattern (see this: [templating in yaml](https://www.thoughtworks.com/radar/techniques/templating-in-yaml))
+- Q: Why can't I use a mustache template for my yaml/jsnon file?
+- A: You can, however this is an anti-pattern (see this: [templating in yaml](https://www.thoughtworks.com/radar/techniques/templating-in-yaml))
 
 To incorporate some if-then-else, for loop comprehensions and mixins we prefer to use a JSonnet. However we are not limited to Jsonnet. Just don't use a `ksonnet` as it seems to be a zombie
 Common libs for jsonnet can be found here: https://github.com/agilestacks/jsonnet
