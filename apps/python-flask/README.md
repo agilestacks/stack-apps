@@ -7,8 +7,8 @@ One of the challenges in adopting Kubernetes is answering the following common q
 By automating the local development workflow, we can significantly shorten the deployment cycle time while reducing the effort to configure and maintain local environments.
 
 You will perform the following steps:
-1. [Setup the application](README.md#setup-the-applciation)
-2. [Setup VS Code](README.md#setup-vs-code)
+1. [Setup the application](README.md#setup-the-application)
+2. [Setup VS Code](README.md#setup-vs-code-and-skaffold)
 3. [Deploy to Kubernetes](#deploy-to-kubernetes)
 
 Depending on your previous experience with Kubernetes and Python, this tutorial should take approximately 25 minutes to complete.
