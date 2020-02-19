@@ -95,6 +95,7 @@
     {
       "id": "skaffoldArg",
       "description": "Skaffold command",
+      "default": "dev",
       "options": [
         "dev",
         "run",
