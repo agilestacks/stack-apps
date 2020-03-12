@@ -1,32 +1,44 @@
-local skaffold = import 'skaffold.libsonnet';
 local template = import 'skaffold.json';
-local app = std.extVar("HUB_APP_NAME");
+local app = std.extVar('HUB_APP_NAME');
+
+local setClusterProfile(build) =
+  if 'cluster' in build then {
+    cluster: build.cluster {
+      dockerConfig+: {
+        secretName: app,
+      },
+    },
+  } else {};
+
 
 local result = template {
-  metadata +: {
-    name: app + "-",
+  metadata+: {
+    name: app + '-',
   },
   build+: {
     artifacts: [
       artifact {
-        image: app
+        image: app,
       }
       for artifact in super.artifacts
-    ] 
+    ],
   },
   profiles: [
-    local tests = if "test" in profile then {
+    local tests = if 'test' in profile then {
       test: [
         tst {
-          image: app
-        },
+          image: app,
+        }
         for tst in super.test
-      ]
+      ],
     } else {};
-
-    profile + tests
+    local build = if 'build' in profile then {
+      build: profile.build + setClusterProfile(profile.build),
+    } else {};
+    profile + tests + build
     for profile in super.profiles
   ],
+
   // test: [
   //   tst {
   //     image: app,
