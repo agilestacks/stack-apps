@@ -40,7 +40,7 @@ $(LIBSONNET):
 $(YAML_JSONNET): $(LIBSONNET) $(TEMPLATES)
 	$(eval fname := $(patsubst $(APP_DIR)/%,$(CURDIR)/%,$@))
 	@ mkdir -p "$(@D)"
-	@ $(jsonnet) "$(fname).jsonnet" | $(yq) r - > $@
+	@ $(jsonnet) "$(fname).jsonnet" | $(yq) r -P - > $@
 	@ echo "Generated: $@"
 
 $(JSON_JSONNET): $(LIBSONNET) $(TEMPLATES)
@@ -55,7 +55,7 @@ generate:
 
 clean:
 	@ echo $(YAML_JSONNET) $(JSON_JSONNET) | tr ' ' '\n' | sed -e 's/^/Deleting: /'
-	@ rm -f $(YAML_JSONNET) $(JSON_JSONNET) $(LIBSONNET) $(TEMPLATES)
+	rm -f $(YAML_JSONNET) $(JSON_JSONNET) $(LIBSONNET) $(TEMPLATES)
 
 ifneq ($(FORCE),)
 PHONIES := $(YAML_JSONNET) $(JSON_JSONNET)

@@ -60,7 +60,7 @@ python-flask:
   /.vscode          # Configuration for vscode
   /src              # Our python application has been located here
   /test             # Container structure texts will be here
-  Dockerfile        # docker image with your application  
+  Dockerfile        # docker image with your application
 ```
 
 4. Retrieve SuperHub authentication token.
@@ -99,7 +99,7 @@ Hub-ls command uses this token to fetch a list of all deployed clusters that pro
 Run the following commands:
 ```bash
 $ hub-configure -s cluster1.bluesky.superhub.io
-# cluster1.bluesky.superhub.io is the target cluster 
+# cluster1.bluesky.superhub.io is the target cluster
 
 $ source .hub/current
 $ kubectl cluster-info
@@ -140,11 +140,11 @@ You have generated a set of configuration files to deploy the application with S
 * `.vscode/*.json`: configuration for vscode
 * `.hub/dockerconfig.json`: a docker auth file. Will be used by Skaffold by as `docker-cfg` secret to push image into docker registry.
 
-More details about code generation and conventions can be found [here](TBD) 
+More details about code generation and conventions can be found [here](TBD)
 
 ## Setup the Development Environment
 
-For Python development we will use Visual Studio Code with additional plugins such as [Google CloudCode](https://cloud.google.com/code/docs/vscode/). 
+For Python development we will use Visual Studio Code with additional plugins such as [Google CloudCode](https://cloud.google.com/code/docs/vscode/).
 Alternative setup for IntelliJ can be found [here](https://cloud.google.com/code/docs/intellij/)
 
 1. Install required plugins
@@ -175,8 +175,8 @@ In the previous section you have executed `make -C ".hub" generate`. TThis comma
 ### Select a namespace for Skaffold
 <img src="docs/media/vscode-5.png" align="right" style="float: right;" alt="Active Namespace" width="309" height="247" />
  On the left side you should be able to see a tab with `<>` icon (Cloud Code). Please select it. Then you should be able to see a kubernetes cluster. Select a target namespace (right click on the desired namespace) for the application (`default` should be good enough).  The target namespace for your application is configurable.  Skaffold will deploy the app in the selected target namespace.
- 
-Hint: To open Kubernetes Dashboard, select the cluster and `Right click >> Open Dashboard` 
+
+Hint: To open Kubernetes Dashboard, select the cluster and `Right click >> Open Dashboard`
 
 In this step you have validated connectivity between VS Code and a Kubernetes cluster. Spend a few minutes exploring the cluster. Next, switch to the source code view: open "Explorer" (`Shift + Cmd + E`).
 
@@ -196,7 +196,7 @@ Dockerfile          # A docker file, managed by Skafold
 skaffold.yaml       # Skaffold configuration file
 ```
 
-### Python Flask Applicaiton
+### Python Flask application
 
 `app.py` is a simple web application. It has a router for
 * `/` - to return our single page HTML
@@ -215,17 +215,17 @@ For remote debug, the application is integrated with [ptvsd](https://github.com/
 ### Dockerfile
 
 The Dockerfile is based on Python 3.7 and exposes two ports:
-* `80` for a flask applicaiton (standart HTTP port)
+* `80` for a flask application (standart HTTP port)
 * `3000` for ptvsd for remote debug.
 
-Note about *PRODUCTION* use: It is recommended to disable remote debugging for production environments. To disable the debugger, you need to make changes in the following two files: `src/app.py` and `Dockerfile`. For production deployments, it is also recommended to define [gunicorn](https://gunicorn.org) (or any other WSGI server of your choice) as entrypoint instead of python + flask. 
+Note about *PRODUCTION* use: It is recommended to disable remote debugging for production environments. To disable the debugger, you need to make changes in the following two files: `src/app.py` and `Dockerfile`. For production deployments, it is also recommended to define [gunicorn](https://gunicorn.org) (or any other WSGI server of your choice) as entrypoint instead of python + flask.
 
 ```dockerfile
 # CMD ["python3", "-m", "flask", "run", "--no-debugger", "--no-reload"]
 ENTRYPOINT ["gunicorn", "-b", "0.0.0.0:80", "app"]
 ```
 ## Deploy to Kubernetes
- 
+
 1. You will deploy the application to Kubernetes with Skaffold. To run a number of predefined tasks in VS Code, press `CMD + Shift + P` and select `Run Task`. Here you should be able to see a number of predefined tasks. You can customize tasks in `.vscode/tasks.json`
 
 <img src="docs/media/vscode-7.png" alt="Active Namespace" width="483" />
@@ -260,10 +260,10 @@ Starting deploy...
  - secret/rubik-dockerconfig configured
  - service/rubik configured
 Watching for changes...
-[rubik-76f8bf44f8-tjdrx applicaiton]  * Serving Flask app "app.py"
-[rubik-76f8bf44f8-tjdrx applicaiton]  * Environment: docker
-[rubik-76f8bf44f8-tjdrx applicaiton]  * Debug mode: on
-[rubik-76f8bf44f8-tjdrx applicaiton]  * Running on http://0.0.0.0:80/ (Press CTRL+C to quit)
+[rubik-76f8bf44f8-tjdrx application]  * Serving Flask app "app.py"
+[rubik-76f8bf44f8-tjdrx application]  * Environment: docker
+[rubik-76f8bf44f8-tjdrx application]  * Debug mode: on
+[rubik-76f8bf44f8-tjdrx application]  * Running on http://0.0.0.0:80/ (Press CTRL+C to quit)
 ```
 
 Let's review the output of `skaffold dev` command:
@@ -291,9 +291,9 @@ There are several ways to access and test the deployed application from the brow
 ```bash
 $ kubectl get ingress --all-namespaces
 
-NAMESPACE     NAME                             HOSTS                                                                                                                   
-default       rubik                            rubik.app.cluster1.bluesky.superhub.io             
-harbor        cluster1-harbor-harbor-ingress   cluster1-harbor.app.cluster1.bluesky.superhub.io   
+NAMESPACE     NAME                             HOSTS
+default       rubik                            rubik.app.cluster1.bluesky.superhub.io
+harbor        cluster1-harbor-harbor-ingress   cluster1-harbor.app.cluster1.bluesky.superhub.io
 ...
 ```
 Based on the output above, you can access the application using the following URL:
@@ -309,10 +309,10 @@ Congratulations, you have successfully deployed Python Flask application on Kube
 When `skaffold dev` command is running, you should see following log in the terminal
 ```
 Watching for changes...
-[rubik-7d9655fcdc-dv8fv applicaiton]  * Serving Flask app "app.py"
-[rubik-7d9655fcdc-dv8fv applicaiton]  * Environment: docker
-[rubik-7d9655fcdc-dv8fv applicaiton]  * Debug mode: on
-[rubik-7d9655fcdc-dv8fv applicaiton]  * Running on http://0.0.0.0:80/ (Press CTRL+C to quit)
+[rubik-7d9655fcdc-dv8fv application]  * Serving Flask app "app.py"
+[rubik-7d9655fcdc-dv8fv application]  * Environment: docker
+[rubik-7d9655fcdc-dv8fv application]  * Debug mode: on
+[rubik-7d9655fcdc-dv8fv application]  * Running on http://0.0.0.0:80/ (Press CTRL+C to quit)
 ```
 
 Skaffold is watching for changes in the application source code. Once any application files are changed, skaffold will sync up changes to the running container (additional details [here](https://skaffold.dev/docs/pipeline-stages/filesync/)). This operation doesn't require a new image build. You can configure files and directories that skaffold is monitoring for changes. Open a `skaffold.yaml` and you should be able to see the following:
@@ -352,10 +352,10 @@ Save the file (`CMD+S`)
 ou will see the following Skaffold logs updates in the Tasks output window:
 ```
 Watching for changes...
-[rubik-7d9655fcdc-dv8fv applicaiton]  * Serving Flask app "app.py"
-[rubik-7d9655fcdc-dv8fv applicaiton]  * Environment: docker
-[rubik-7d9655fcdc-dv8fv applicaiton]  * Debug mode: on
-[rubik-7d9655fcdc-dv8fv applicaiton]  * Running on http://0.0.0.0:80/ (Press CTRL+C to quit)
+[rubik-7d9655fcdc-dv8fv application]  * Serving Flask app "app.py"
+[rubik-7d9655fcdc-dv8fv application]  * Environment: docker
+[rubik-7d9655fcdc-dv8fv application]  * Debug mode: on
+[rubik-7d9655fcdc-dv8fv application]  * Running on http://0.0.0.0:80/ (Press CTRL+C to quit)
 Syncing 1 files for cluster1-harbor.app.cluster1.bluesky.superhub.io/library/rubik
 Watching for changes...
 ```
@@ -364,7 +364,7 @@ Once you see the message `Detected change in '/app/app.py', reloading`, open the
 
 <img src="docs/media/browser-2.png" alt="Rubik's cube" width="525" />
 
-## Remote debugging 
+## Remote debugging
 
 Now let's do some debugging. This is a bit tricky because, our python application has been wrapped into a docker container, which is running inside kubernetes. So, we will use a tool chain of:
 * `Visual Studio Code` - IDE

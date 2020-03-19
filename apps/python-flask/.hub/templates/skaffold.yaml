@@ -5,6 +5,8 @@ metadata:
 build:
   artifacts:
   - image: CHANGEMEPLEASE
+    kaniko:
+      cache: {}
     sync:
       manual:
       - src: 'src/**/*.py'
@@ -31,10 +33,10 @@ profiles:
     local:
       useDockerCLI: true
   test:
-  # we cannot do structure tests for incluster setup because 
+  # we cannot do structure tests for incluster setup because
   # container-structure-test locally and skaffold doesn't do 'docker pull' after build
   - image: CHANGEMEPLEASE
-    structureTests:	
+    structureTests:
     - ./test/*.yaml
 - name: incluster
   build:

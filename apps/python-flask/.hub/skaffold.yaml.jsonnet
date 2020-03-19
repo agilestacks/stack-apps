@@ -5,7 +5,7 @@ local setClusterProfile(build) =
   if 'cluster' in build then {
     cluster: build.cluster {
       dockerConfig+: {
-        secretName: app,
+        secretName: app + '-dockerconfig',
       },
     },
   } else {};
@@ -46,4 +46,5 @@ local result = template {
   //   for tst in super.test
   // ],
 };
-std.prune(result)
+//std.prune(result)
+result
