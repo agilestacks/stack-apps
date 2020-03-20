@@ -13,8 +13,8 @@ spec:
         app: CHANGEMEPLEASE
     spec:
       containers:
-      - image: application
+      - image: app
         imagePullPolicy: Always
-        name: applicaiton
+        name: main
         ports:
         - containerPort: 80

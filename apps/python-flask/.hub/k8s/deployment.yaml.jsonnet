@@ -3,28 +3,20 @@ local template = import 'deployment.json';
 local app = std.extVar("HUB_APP_NAME");
 
 local appLabels = {
-  app: std.extVar("HUB_APP_NAME"),
+  app: app,
 };
 
 local result = template + {
   metadata+: {
-    name: std.extVar("HUB_APP_NAME"),
+    name: app,
   },
   spec+: {
     selector+: {
-      matchLabels+: appLabels, 
+      matchLabels+: appLabels,
     },
     template+: {
       metadata+: {
         labels+: appLabels,
-      },
-      spec+: {
-        containers: [
-          container + {
-            image: app
-          }
-          for container in super.containers
-        ],
       },
     },
   },

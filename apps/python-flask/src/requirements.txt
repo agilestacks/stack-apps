@@ -1,8 +1,12 @@
 flask
 flask-json
-waitress
-gunicorn
+# waitress
+# gunicorn
 uptime
 
-#for debugging
+#for development
 ptvsd
+pylint
+autopep8
+python-dotenv
+

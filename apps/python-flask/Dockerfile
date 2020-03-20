@@ -3,11 +3,11 @@ FROM python:3.7
 ENV PTVSD_PORT        3000
 
 ENV FLASK_APP         app.py
-ENV FLASK_ENV         docker
-ENV FLASK_DEBUG       1
+ENV FLASK_ENV         development
 ENV FLASK_RUN_HOST    0.0.0.0
 ENV FLASK_RUN_PORT    80
-ENV FLASK_RUN_RELOAD  1
+ENV FLASK_DEBUG       1
+ENV FLASK_RUN_RELOAD  0
 
 WORKDIR /app
 COPY src/ .

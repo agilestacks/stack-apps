@@ -2,7 +2,7 @@
 
 aws     := aws
 kubectl := kubectl
-yq      := yq
+yq      := yq -P
 curl    := curl -sSL --create-dirs
 
 APP_DIR             := ..

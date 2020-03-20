@@ -4,9 +4,7 @@ metadata:
   name: CHANGEMEPLEASE
 build:
   artifacts:
-  - image: CHANGEMEPLEASE
-    kaniko:
-      cache: {}
+  - image: app
     sync:
       manual:
       - src: 'src/**/*.py'
@@ -15,6 +13,11 @@ build:
       - src: 'src/static/**'
         dest: /app
         strip: src/
+      - src: 'src/templates/**'
+        dest: /app
+        strip: src/
+    kaniko:
+      cache: {}
   tagPolicy:
     dateTime:
       format: 20060102-150405
@@ -35,7 +38,7 @@ profiles:
   test:
   # we cannot do structure tests for incluster setup because
   # container-structure-test locally and skaffold doesn't do 'docker pull' after build
-  - image: CHANGEMEPLEASE
+  - image: app
     structureTests:
     - ./test/*.yaml
 - name: incluster

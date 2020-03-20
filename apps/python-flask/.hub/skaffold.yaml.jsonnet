@@ -1,50 +1,26 @@
 local template = import 'skaffold.json';
 local app = std.extVar('HUB_APP_NAME');
 
-local setClusterProfile(build) =
+// avoid possible naming collisiton
+// for kaniko secrets in the sane manespace
+local withKanikoSecret(build) =
   if 'cluster' in build then {
     cluster: build.cluster {
       dockerConfig+: {
-        secretName: app + '-dockerconfig',
+        secretName: 'kaniko-' + app,
       },
     },
   } else {};
 
 
-local result = template {
+template {
   metadata+: {
     name: app + '-',
   },
-  build+: {
-    artifacts: [
-      artifact {
-        image: app,
-      }
-      for artifact in super.artifacts
-    ],
-  },
   profiles: [
-    local tests = if 'test' in profile then {
-      test: [
-        tst {
-          image: app,
-        }
-        for tst in super.test
-      ],
-    } else {};
-    local build = if 'build' in profile then {
-      build: profile.build + setClusterProfile(profile.build),
-    } else {};
-    profile + tests + build
+    profile + if 'build' in profile then {
+      build+: withKanikoSecret(profile.build),
+    }
     for profile in super.profiles
   ],
-
-  // test: [
-  //   tst {
-  //     image: app,
-  //   }
-  //   for tst in super.test
-  // ],
-};
-//std.prune(result)
-result
+}

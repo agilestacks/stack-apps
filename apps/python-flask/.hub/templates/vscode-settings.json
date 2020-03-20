@@ -1,6 +1,8 @@
 {
-  "python.envFile": "${workspaceFolder}/.vscode/env",
+  "python.envFile": "${workspaceFolder}/src/.vscode/env",
   "cloudcode.profile-registry-map": {},
   "cloudcode.debug-kubernetes": {},
-  "cloudcode.enableDeployDebugV2": true
+  "cloudcode.enableDeployDebugV2": true,
+  "python.venvPath": "${workspaceFolder}/src/.venv",
+  "python.pythonPath": "${workspaceFolder}/src/.venv/bin/python3"
 }

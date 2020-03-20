@@ -20,3 +20,4 @@ __pycache__
 /skaffold.yaml
 skaffold.json
 k8s/*.yaml
+.skaffold

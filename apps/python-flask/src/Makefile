@@ -6,10 +6,11 @@ PYTEST      := $(SOURCE_VENV); pytest
 PYTHON      := $(SOURCE_VENV); python3
 
 $(VIRTUALENV):
-	$(PYTHON) -m venv $(abspath $@)
+	python3 -m venv $@
+	$(PIP) install -U pip
 
 install: $(VIRTUALENV)
-	$(PIP) install -r requirements.txt
+	$(PIP) install -r requirements.txt --ignore-installed
 
 lint: $(VIRTUALENV)
 	$(PYLINT) api
@@ -20,10 +21,8 @@ pytest: $(VIRTUALENV)
 run: $(VIRTUALENV)
 	$(PYTHON) app.py
 
-deploy: install run
-
 clean:
 	rm -rf $(VIRTUALENV)
 
-.DEFAULT_GOAL := deploy
-.PHONY := deploy flask pytest lint install 
+.DEFAULT_GOAL: run
+.PHONY: deploy flask pytest lint install
