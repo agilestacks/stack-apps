@@ -15,8 +15,10 @@ DOCKER_HOST=`hub show -q '.parameters.component.docker.auth.host'`
 DOCKER_USER=`hub show -q '.parameters.component.docker.auth.basic.username'`
 DOCKER_PASS=`hub show -q '.parameters.component.docker.auth.basic.password' | hub ext show-secret`
 
-which docker > /dev/null && \
-	echo "${DOCKER_PASS}" | docker login "${DOCKER_HOST}" -u "${DOCKER_USER}" --password-stdin
+{
+	which docker \
+	&& docker login "${DOCKER_HOST}" -u "${DOCKER_USER}" -p "${DOCKER_PASS}"
+} > /dev/null 2>&1
 
 TMPL="
 #!/bin/sh
