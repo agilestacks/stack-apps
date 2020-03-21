@@ -16,8 +16,9 @@ build:
       - src: 'src/templates/**'
         dest: /app
         strip: src/
-    kaniko:
-      cache: {}
+#     this conflicts with local build usning docker cli
+#     kaniko:
+#       cache: {}
   tagPolicy:
     dateTime:
       format: 20060102-150405
@@ -34,7 +35,8 @@ profiles:
   - env: KUBECONFIG=!
   build:
     local:
-      useDockerCLI: true
+      useDockerCLI: false
+      useBuildkit: false
   test:
   # we cannot do structure tests for incluster setup because
   # container-structure-test locally and skaffold doesn't do 'docker pull' after build
