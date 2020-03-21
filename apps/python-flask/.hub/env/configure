@@ -32,12 +32,8 @@ export KUBECONFIG=$KUBECONFIG
 export HUB_DOTENV=$HUB_DOTENV
 
 export SKAFFOLD_DEFAULT_REPO=`hub show -q '.parameters.component.docker.auth.host'`/library
-export SKAFFOLD_PROFILE=incluster
-export SKAFFOLD_NAMESPACE=default
-export SKAFFOLD_CACHE_FILE=$(dirname "$HUB_DOTENV")/.skaffold/cache
-export SKAFFOLD_CONFIG=$(dirname "$HUB_DOTENV")/.skaffold/config
-export SKAFFOLD_CACHE_ARTIFACTS=true
-
-export HUB_DATABASE_URI=postgres://$DB_USER:$DB_PASS@$DB_HOST:$DB_PORT/$DB_NAME
+export SKAFFOLD_PROFILE=${SKAFFOLD_PROFILE:-incluster}
+export SKAFFOLD_NAMESPACE=${SKKAFFOLE_NAMESPACE:-default}
+export SKAFFOLD_CACHE_ARTIFACTS=${SKAFFOLD_CACHE_ARTIFACTS:-default}
 "
 echo "$TMPL"
