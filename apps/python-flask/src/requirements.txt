@@ -9,4 +9,6 @@ ptvsd
 pylint
 autopep8
 python-dotenv
-
+psycopg2-binary   # postgresql driver
+flask_sqlalchemy  # orm framework for flask 
+flask_migrate     # database migration scripts

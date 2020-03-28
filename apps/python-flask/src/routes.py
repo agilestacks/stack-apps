@@ -1,13 +1,11 @@
-from flask import render_template
+from flask import render_template, jsonify
 from flask_json import json_response
 from uptime import uptime
 from random import sample
 from app import application
+from models import Word
 
-WORDS = [
-    'helm', 'kustomize', 'kubernetes', 'aws', 'gcp', 'azure',
-    'terraform', 'docker', 'shell', 'vault', 'istio'
-]
+WORDS = Word.query.all() # select * from words
 
 def get_words(howmany=1):
     """
@@ -30,7 +28,9 @@ def gimme(howmany=1):
     """
     returns random list of words with the size defined in parameter howmany
     """
-    return json_response(data=get_words(howmany))
+    dbarray = get_words(howmany)
+    result = [w.value for w in dbarray]
+    return json_response(data=result)
 
 
 @application.route('/status')

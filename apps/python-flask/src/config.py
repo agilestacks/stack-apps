@@ -6,3 +6,6 @@ class Config(object):
     FLASK_DEBUG = int(environ.get("FLASK_DEBUG", 0))
     FLASK_RUN_RELOAD = int(environ.get("FLASK_RUN_RELOAD", 0))
     PTVSD_ENABLED = (FLASK_DEBUG == 1 and FLASK_RUN_RELOAD == 0)
+    SQLALCHEMY_DATABASE_URI = environ['HUB_DATABASE_URI']
+    SQLALCHEMY_ECHO = True
+    SQLALCHEMY_TRACK_MODIFICATIONS = False 
