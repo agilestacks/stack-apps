@@ -1,0 +1,12 @@
+check_peer1:
+  http: ${component.validator.testEndpoint1}
+  match: |
+    { "lalala" : "blah" }
+check_peer2:
+  http: ${component.validator.testEndpoint2}
+  match: |
+    { "lalala" : "blah" }
+check_peer3:
+  http: ${component.validator.testEndpoint3}
+  match: |
+    { "lalala" : "blah" }

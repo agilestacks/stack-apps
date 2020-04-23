@@ -1,0 +1,50 @@
+{
+    "name": "integration-test-1",
+    "description": "A set of example services and their validator",
+    "tags": [
+        "kind=overlay"
+    ],
+    "stack": "scratch:1",
+    "componentsEnabled": [
+        "postgresql",
+        "pgweb"
+    ],
+    "verbs": [
+        "deploy",
+        "undeploy"
+    ],
+    "parameters": [
+        {
+          "name": "component.pgweb.name",
+          "value": "postgresql-pgweb"
+        },
+        {
+          "name": "component.postgresql.database",
+          "value": "postgres"
+        },
+        {
+          "name": "component.postgresql.password",
+          "kind": "secret",
+          "value": {
+              "kind": "password",
+              "password": "postgres"
+          }
+        },
+        {
+          "name": "component.postgresql.storageType",
+          "value": "ebs"
+        },
+        {
+          "name": "component.postgresql.user",
+          "value": "postgres"
+        },
+        {
+          "name": "component.postgresql.volumeSize",
+          "value": "8Gi"
+        },
+        {
+          "name": "component.postgresql.volumeType",
+          "value": "gp2"
+        }
+    ]
+}

@@ -1,0 +1,19 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: ${component.validator.name}-job
+spec:
+  template:
+    spec:
+      containers:
+      - name: main
+        image: eigenrick/wsvalidator
+        command: ["/lorikeet", "/config/test.yml"]
+        volumeMounts:
+        - name: test-plan
+          mountPath: /config
+      restartPolicy: Never
+      volumes:
+        - name: test-plan
+          configMap:
+            name: test-plan

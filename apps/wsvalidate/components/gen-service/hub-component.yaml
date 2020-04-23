@@ -1,0 +1,29 @@
+---
+version: 1
+kind: component
+meta:
+  name: genService
+  brief: A generic service that gets its personality from its configuration
+
+requires:
+  - kubernetes
+
+parameters:
+- name: dns.domain
+  env: DOMAIN_NAME
+- name: component.genService.name
+  value: ${hub.componentName}
+  env: COMPONENT_NAME
+- name: component.genService.myPort
+  value: 8000
+- name: component.genService.peer
+  empty: allow
+
+outputs:
+- name: component.genService.endpoint.internal
+  brief: Internal URL
+  value: http://${component.genService.name}:${component.genService.myPort}
+
+templates:
+  files:
+    - "k8s/*.template"

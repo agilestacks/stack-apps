@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ${component.genService.name}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ${component.genService.name}
+  template:
+    metadata:
+      labels:
+        app: ${component.genService.name}
+    spec:
+      containers:
+      - image: eigenrick/gen-service
+        imagePullPolicy: Always
+        name: main
+        ports:
+        - containerPort: 8000
+        env:
+        - name: MYNAME
+          value: ${component.genService.name}
+        - name: PEERNAME
+          value: ${component.genService.peer}

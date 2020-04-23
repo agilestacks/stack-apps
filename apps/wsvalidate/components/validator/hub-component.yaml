@@ -1,0 +1,28 @@
+---
+version: 1
+kind: component
+meta:
+  name: validator
+  brief: A web service validator component
+
+requires:
+  - kubernetes
+
+parameters:
+- name: dns.domain
+  env: DOMAIN_NAME
+
+- name: component.validator.name
+  value: validator
+  env: COMPONENT_NAME
+- name: component.validator.testEndpoint1
+- name: component.validator.testEndpoint2
+- name: component.validator.testEndpoint3
+
+outputs:
+  - name: component.validator.result
+    fromTfVar: validator_result
+
+templates:
+  files:
+    - "k8s/*.template"
