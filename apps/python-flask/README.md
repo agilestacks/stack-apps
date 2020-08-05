@@ -101,7 +101,7 @@ Run the following commands:
 $ hub-configure -s cluster1.bluesky.superhub.io
 # cluster1.bluesky.superhub.io is the target cluster
 
-$ source .hub/current
+$ source .env
 $ kubectl cluster-info
 Kubernetes master is running at https://cluster1.bluesky.superhub.io
 ```
@@ -170,7 +170,7 @@ $ code -n .
 
 With the local development environment configured, you’re now ready to launch your application. Typically, you’d have to perform several tedious and error-prone tasks to build Docker containers and create Kubernetes configuration files. Fortunately, Skaffold is the tool that automatically generates required Kubernetes manifests. Skaffold also watches for code changes, and once a change is detected, Skaffold automatically initiates the steps to build, push and deploy the new code to a Kubernetes cluster.
 
-In the previous section you have executed `make -C ".hub" generate`. TThis command has generated VS Code configuration files that you can view in `/.vscode` directory. You have also installed several VS Code (extensions)[.vscode/extensions.json]. One of the extensions is the (Cloud Code)[https://cloud.google.com/code/docs/vscode/], which allows to integrate Skaffold with VS Code.
+In the previous section you have executed `make -C ".hub" generate`. This command has generated VS Code configuration files that you can view in `/.vscode` directory. You have also installed several VS Code (extensions)[.vscode/extensions.json]. One of the extensions is the (Cloud Code)[https://cloud.google.com/code/docs/vscode/], which allows to integrate Skaffold with VS Code.
 
 ### Select a namespace for Skaffold
 <img src="docs/media/vscode-5.png" align="right" style="float: right;" alt="Active Namespace" width="309" height="247" />
@@ -427,4 +427,3 @@ In addition to a breakpoint, you can also setup a logpoint. VS Code Logpoint is 
 Congratulations! You have created a Flask application, wrapped it in Docker container, pushed it to a private Docker registry. Then you scheduled a Kubernetes deployment and enabled live reloads with Skaffold and remote debugging with ptvsd for your applications running on Kubernetes. You have learned how to use Hub CLI, VS Code, and Skaffold to configure, deploy, and debug an application on Kubernetes. While it may sound complex, this is the reality of current state of Kubernetes deployments. Unless you automate the entire workflow, developers have to manually perform configuration instead of writing application code. By automating the local development workflow, you can shorten the feedback loop, reduce misconfiguration errors, and reduce the effort to maintain local environments. Even if you happen to break your configuration, you can use automation to regenerate it.
 
 In the next tutorial (coming soon), you can learn about how to use SuperHub to link a component, such as a database, with your application.
-
