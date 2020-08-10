@@ -66,7 +66,7 @@ python-flask:
 
 4. Retrieve SuperHub authentication token.
 
-You can retrieve your API token from [SuperHub UI](https://controlplane.agilestacks.io/#/user/profile) or using Hub CLI.
+You can retrieve your API token from [SuperHub UI](https://controlplane.agilestacks.io/#/user/profile) or using Hub CLI. In case you deployed Kubernetes and `stack-app-eks` Agile Stacks certified stack from command-line you should skip this section.
 
 Use the following command to retrieve the authentication token using Hub CLI:
 
@@ -108,7 +108,13 @@ $ kubectl cluster-info
 Kubernetes master is running at https://cluster1.bluesky.superhub.io
 ```
 
-`hub-configure` command is used to specify the cluster name where the application is going to be deployed. Please replace `cluster1.bluesky.superhub.io` with the name of your cluster. When you executed `hub-configure` command, SuperHub will save Kubernetes cluster configuration file (kubeconfig) in the following directory: `.hub/env`.  Also, it will create a symlink pointer to the actual cluster configuration: `.hub/current`
+`hub-configure` command is used to specify the cluster name where the application is going to be deployed. Please replace `cluster1.bluesky.superhub.io` with the name of your cluster. When you executed `hub-configure` command, SuperHub will save Kubernetes cluster configuration file (Kubeconfig) in the following directory: `.hub/env`.  Also, it will create a symlink pointer to the actual cluster configuration: `.hub/current`
+
+In case the Agile Stacks certified stack is deployed from command-line, ie. `stack-app-eks`, then you should additionally specify Kubeconfig context name to `hub-configure`:
+
+```bash
+$ hub configure -p user@applications.us-east-2.eksctl.io -s woebegone-shaelyn-96.devops.delivery
+```
 
 For more information about how to customize or extend the cluster configuration, refer to the following article: [here](TBD)
 
