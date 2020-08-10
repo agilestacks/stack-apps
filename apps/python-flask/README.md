@@ -21,7 +21,7 @@ Depending on your previous experience with Kubernetes and Python, this tutorial 
 * `hub`: SuperHub CLI (installation notes below) to manage and configure your infrastructure
 * `skaffold`: to automate the workflow for building and deploying your application
 * `jq`: JSON parser for SuperHub API routines
-* `yq`: for JSON to YAML conversion
+* `yq` v3: for JSON to YAML conversion
 * `jsonnet`: for code generation
 * `kubectl`: command line tool for controlling Kubernetes clusters
 * `make`: to control the code generation routines
@@ -52,6 +52,7 @@ sudo mv hub /usr/local/bin
 $ git clone https://github.com/agilestacks/stack-apps.git
 $ cd stack-apps/apps/python-flask
 ```
+
 Let's review the files downloaded for the application template:
 
 ```
@@ -65,9 +66,10 @@ python-flask:
 
 4. Retrieve SuperHub authentication token.
 
-You can retrieve your API token from (SuperHub UI)[https://controlplane.agilestacks.io/#/user/profile] or using Hub CLI.
+You can retrieve your API token from [SuperHub UI](https://controlplane.agilestacks.io/#/user/profile) or using Hub CLI.
 
 Use the following command to retrieve the authentication token using Hub CLI:
+
 ```
 $ hub login
 Username: john.doe@example.com   # your SuperHub control plane username
@@ -77,14 +79,14 @@ export HUB_TOKEN=sergd......kieud
 ```
 
 You need to export `HUB_TOKEN` environment variable to provide authentication for Hub CLI. This step will configure Hub CLI and generate your application configuration for the specified Kubernetes cluster.
-If you don't know your SuperHub username and password, you can register for a free account (Register)[https://www.agilestacks.com/register]
+If you don't know your SuperHub username and password, you can register for a free account [Register](https://www.agilestacks.com/register).
 
 Run the following commands:
 ```
 $ echo $HUB_TOKEN
 sergd......kieud
 
-$ hub-ls -p harbor -p kubernetes
+$ hub ls -p harbor -p kubernetes
 cluster1.bluesky.superhub.io
 cluster2.bluesky.superhub.io
 ```
@@ -92,13 +94,13 @@ Note: your environment may use Kubernetes cluster names that are different from 
 
 The code above will validate that `HUB_TOKEN` environment variable has been defined.
 
-Hub-ls command uses this token to fetch a list of all deployed clusters that provide required capabilities: `Kubernetes` platform and `Harbor` private docker registry. This code also confirms that you have a running Kubernetes cluster where the application can be deployed.
+`hub-ls` command uses this token to fetch a list of all deployed clusters that provide required capabilities: `Kubernetes` platform and `Harbor` private docker registry. This code also confirms that you have a running Kubernetes cluster where the application can be deployed.
 
 5. Apply cluster configuration to your application code.
 
 Run the following commands:
 ```bash
-$ hub-configure -s cluster1.bluesky.superhub.io
+$ hub configure -s cluster1.bluesky.superhub.io
 # cluster1.bluesky.superhub.io is the target cluster
 
 $ source .env
@@ -106,11 +108,13 @@ $ kubectl cluster-info
 Kubernetes master is running at https://cluster1.bluesky.superhub.io
 ```
 
-`hub-configure` command is used to specify the cluster name where the application is going to be deployed.  Please replace   `cluster1.bluesky.superhub.io` with the name of your cluster. When you executed `hub-configure` command, SuperHub will save Kubernetes cluster configuration file (kubeconfig) in the following directory: `.hub/env`.  Also, it will create a symlink pointer to the actual cluster configuration: `.hub/current`
+`hub-configure` command is used to specify the cluster name where the application is going to be deployed. Please replace `cluster1.bluesky.superhub.io` with the name of your cluster. When you executed `hub-configure` command, SuperHub will save Kubernetes cluster configuration file (kubeconfig) in the following directory: `.hub/env`.  Also, it will create a symlink pointer to the actual cluster configuration: `.hub/current`
 
 For more information about how to customize or extend the cluster configuration, refer to the following article: [here](TBD)
 
-Next, you will generate the application configuration files. You need to generate new configuration files each time you change your cluster.
+6. Generate the application configuration files.
+
+You need to generate new configuration files each time you change your cluster.
 
 ```bash
 $ make -C ".hub" generate
