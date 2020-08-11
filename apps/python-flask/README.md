@@ -123,7 +123,7 @@ For more information about how to customize or extend the cluster configuration,
 You need to generate new configuration files each time you change your cluster.
 
 ```bash
-$ make -C ".hub" generate
+$ make -C ".hub" clean generate
 Generated: ../skaffold.yaml
 Generated: ../k8s/deployment.yaml
 Generated: ../k8s/ingress.yaml
