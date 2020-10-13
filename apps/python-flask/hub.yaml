@@ -1,0 +1,10 @@
+version: 1
+kind: stack
+meta:
+  name: Python flask micro-service
+  brief: Python micro-service automated with Skaffold
+components: []
+extensions:
+  configure:
+  - kubernetes
+  - this

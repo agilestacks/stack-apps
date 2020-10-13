@@ -5,7 +5,7 @@ kubectl := kubectl
 yq      := yq -P
 curl    := curl -sSL --create-dirs
 
-APP_DIR             := ..
+APP_DIR             := $(abspath $(CURDIR)/..)
 DOTENV              := $(APP_DIR)/.env
 TEMPLATES_DIR       := templates
 LIBSONNET_DIR       := lib
@@ -50,11 +50,11 @@ $(JSON_JSONNET): $(LIBSONNET) $(TEMPLATES)
 	@ echo "Generated: $@"
 
 generate:
-	@ test -f $(DOTENV) && source $(DOTENV); \
+	test -f $(DOTENV) && source $(DOTENV); \
 		$(MAKE) $(YAML_JSONNET) $(JSON_JSONNET)
 
 clean:
-	@ echo $(YAML_JSONNET) $(JSON_JSONNET) | tr ' ' '\n' | sed -e 's/^/Deleting: /'
+	echo $(YAML_JSONNET) $(JSON_JSONNET) | tr ' ' '\n' | sed -e 's/^/Deleting: /'
 	rm -f $(YAML_JSONNET) $(JSON_JSONNET) $(LIBSONNET) $(TEMPLATES)
 
 ifneq ($(FORCE),)
@@ -63,3 +63,4 @@ endif
 
 .PHONY: generate clean $(PHONIES)
 .DELETE_ON_ERROR: $(YAML_JSONNET) $(JSON_JSONNET) $(LIBSONNET) $(TEMPLATES)
+.SILENT: generate clean
