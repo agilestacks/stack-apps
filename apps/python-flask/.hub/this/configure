@@ -51,7 +51,7 @@ echo "* Using name: $HUB_APP_NAME"
 DOCKER_HOST=$(hub show -q '.parameters.component.docker.auth.host')
 DOCKER_USER=$(hub show -q '.parameters.component.docker.auth.basic.username')
 DOCKER_PASS=$(hub show -q '.parameters.component.docker.auth.basic.password' | hub ext show-secret)
-HUB_INGRESS_HOST=$(hub show -q '.parameters.component.ingress.fqdn')
+HUB_INGRESS_HOST=$(hub show -q '.parameters."traefik:component".ingress.fqdn')
 HUB_DOMAIN_NAME=$(hub show -q '.parameters.dns.domain')
 
 {
@@ -60,8 +60,8 @@ HUB_DOMAIN_NAME=$(hub show -q '.parameters.dns.domain')
 } > /dev/null 2>&1
 
 cat << EOF > "$DOT_ENV"
-export HUB_APP_NAME="${HUB_APP_NAME}"
-export HUB_DOMAIN_NAME="$HUB_DOMAIN_NAME"
+HUB_APP_NAME="${HUB_APP_NAME}"
+HUB_DOMAIN_NAME="$HUB_DOMAIN_NAME"
 HUB_INGRESS_HOST="$HUB_INGRESS_HOST"
 HUB_DOCKER_HOST="$DOCKER_HOST"
 HUB_DOCKER_USER="$DOCKER_USER"
