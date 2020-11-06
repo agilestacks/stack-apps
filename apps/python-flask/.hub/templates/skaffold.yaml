@@ -38,12 +38,12 @@ profiles:
       useDockerCLI: false
       useBuildkit: false
   test:
-  # we cannot do structure tests for incluster setup because
+  # we cannot do structure tests for kaniko setup because
   # container-structure-test locally and skaffold doesn't do 'docker pull' after build
   - image: app
     structureTests:
     - ./test/*.yaml
-- name: incluster
+- name: kaniko
   build:
     cluster:
       dockerConfig:

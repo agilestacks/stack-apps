@@ -50,8 +50,7 @@ $(JSON_JSONNET): $(LIBSONNET) $(TEMPLATES)
 	@ echo "Generated: $@"
 
 generate:
-	test -f $(DOTENV) && source $(DOTENV); \
-		$(MAKE) $(YAML_JSONNET) $(JSON_JSONNET)
+	$(MAKE) $(YAML_JSONNET) $(JSON_JSONNET)
 
 clean:
 	echo $(YAML_JSONNET) $(JSON_JSONNET) | tr ' ' '\n' | sed -e 's/^/Deleting: /'

@@ -15,10 +15,11 @@ DOCKER_HOST=`hub show -q '.parameters.component.docker.auth.host'`
 DOCKER_USER=`hub show -q '.parameters.component.docker.auth.basic.username'`
 DOCKER_PASS=`hub show -q '.parameters.component.docker.auth.basic.password' | hub ext show-secret`
 
-{
-	which docker \
-	&& docker login "${DOCKER_HOST}" -u "${DOCKER_USER}" -p "${DOCKER_PASS}"
-} > /dev/null 2>&1
+# TODO: give user ability to login manually
+# {
+# 	which docker \
+# 	&& docker login "${DOCKER_HOST}" -u "${DOCKER_USER}" -p "${DOCKER_PASS}"
+# } > /dev/null 2>&1
 
 TMPL="
 #!/bin/sh
@@ -32,7 +33,7 @@ export KUBECONFIG=$KUBECONFIG
 export HUB_DOTENV=$HUB_DOTENV
 
 export SKAFFOLD_DEFAULT_REPO=`hub show -q '.parameters.component.docker.auth.host'`/library
-export SKAFFOLD_PROFILE=${SKAFFOLD_PROFILE:-incluster}
+export SKAFFOLD_PROFILE=${SKAFFOLD_PROFILE:-kaniko}
 export SKAFFOLD_NAMESPACE=${SKKAFFOLE_NAMESPACE:-default}
 export SKAFFOLD_CACHE_ARTIFACTS=${SKAFFOLD_CACHE_ARTIFACTS:-default}
 "
