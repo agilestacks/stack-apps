@@ -1,6 +1,6 @@
 const WORDS = [
   'helm', 'kustomize', 'kubernetes', 'aws', 'gcp', 'azure',
-  'terraform', 'docker', 'shell', 'vault', 'istio'
+  'terraform', 'docker', 'shell', 'vault', 'istio',
 ];
 
 const MAX_HISTORY_LENGTH = 7;
@@ -11,7 +11,7 @@ function random(maxValue) {
 }
 
 function sample(values, howmany = 1) {
-  let res = [];
+  const res = [];
   while (res.length < howmany) {
     const word = values[random(values.length - 1)];
     if (!keywordsHistory.includes(word)) {

@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Chart.Name }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "application.labels" . | indent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "application.labels" . | indent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "application.labels" . | indent 8 }}
+    spec:
+      containers:
+      - name: {{ .Chart.Name }}
+        image: {{ .Values.image }} # this value comes from the skaffold.yaml
+
+        # this imagePullPolicy value is now invalid,
+        # because it was overwritten through the `image` value from the skaffold.yaml!
+
+        # let's redefine it in the `values.yaml` so we can keep it here.
+        imagePullPolicy: {{ .Values.imageConfig.pullPolicy }}
+        ports:
+        - name: http
+          containerPort: {{ .Values.containerPort }}
+          protocol: TCP
+        livenessProbe:
+          httpGet:
+            path: {{ .Values.healthcheckUrl }}
+            port: http
+          periodSeconds: 20
+          timeoutSeconds: 10
+          initialDelaySeconds: 15
+        readinessProbe:
+          httpGet:
+            path: {{ .Values.healthcheckUrl }}
+            port: http
+          periodSeconds: 20
+          timeoutSeconds: 10
+          initialDelaySeconds: 15

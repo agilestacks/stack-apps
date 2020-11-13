@@ -1,0 +1,70 @@
+#!/bin/bash -e
+# shellcheck disable=SC2006,SC2046
+
+usage() {
+  cat << EOF
+This application configuration
+
+Example:
+  $ hub configure -f hub.yaml -r $(dirname "$0")
+EOF
+}
+
+while [ "$1" != "" ]; do
+  case $1 in
+    --output )
+      shift
+      DOT_ENV="$1"
+      ;;
+    -h | --help )
+      usage
+      exit
+    ;;
+  esac
+  shift
+done
+
+echo "Configuring applications"
+
+if test -z "$DOT_ENV"; then
+	echo "Error: DOT_ENV undefined! Abort!"
+	exit 1
+fi
+
+export JQ_ARGS="-rMc"
+uuid=$(uuidgen | tr '[:upper:]' '[:lower:]' | tr -d - | cut -c-4)
+HUB_APP_NAME="${HUB_APP_NAME:-rubik-$uuid}"
+
+echo "* Using name: $HUB_APP_NAME"
+DOCKER_HOST=$(hub show -q '.parameters.component.docker.auth.host')
+DOCKER_USER=$(hub show -q '.parameters.component.docker.auth.basic.username')
+DOCKER_PASS=$(hub show -q '.parameters.component.docker.auth.basic.password' | hub ext show-secret)
+HUB_INGRESS_HOST=$(hub show -q '.parameters."traefik:component".ingress.fqdn')
+HUB_DOMAIN_NAME=$(hub show -q '.parameters.dns.domain')
+
+# TODO: give user ability to login manually
+# {
+# 	which docker \
+# 	&& docker login "${DOCKER_HOST}" -u "${DOCKER_USER}" -p "${DOCKER_PASS}"
+# } > /dev/null 2>&1
+
+cat << EOF > "$DOT_ENV"
+HUB_APP_NAME="${HUB_APP_NAME}"
+HUB_APP_HOST="${HUB_APP_NAME}.${HUB_INGRESS_HOST}"
+HUB_DOMAIN_NAME="$HUB_DOMAIN_NAME"
+HUB_DOCKER_HOST="$DOCKER_HOST"
+HUB_DOCKER_USER="$DOCKER_USER"
+HUB_DOCKER_PASS="$DOCKER_PASS"
+HUB_DOTENV="$(dirname $(dirname $(dirname "$0")))/.env"
+HUB_INGRESS_HOST="$HUB_INGRESS_HOST"
+# Skaffold configuration
+export SKAFFOLD_DEFAULT_REPO="$DOCKER_HOST/library"
+export SKAFFOLD_PROFILE="${SKAFFOLD_PROFILE:-kaniko}"
+export SKAFFOLD_NAMESPACE="${SKAFFOLD_NAMESPACE:-default}"
+export SKAFFOLD_CACHE_ARTIFACTS="${SKAFFOLD_CACHE_ARTIFACTS:-default}"
+"
+EOF
+
+set +a
+eval $($HUB_HOME/env/dotenv export -f "$DOT_ENV")
+set -a

@@ -28,3 +28,11 @@ yarn-error.log*
 .env.development.local
 .env.test.local
 .env.production.local
+
+.env
+.hub/env
+.hub/lib
+.hub/**/*.json
+
+!pages/lib
+/skaffold.yaml

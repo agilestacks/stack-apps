@@ -1,0 +1,14 @@
+---
+version: 1
+kind: stack
+meta:
+  name: Rubik's Cube app on Next.JS
+  brief: Next.JS app automated with Skaffold
+
+components: []
+
+extensions:
+  configure:
+  - kubernetes
+  - envvars
+  - skaffold

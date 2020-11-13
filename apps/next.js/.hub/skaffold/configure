@@ -1,0 +1,52 @@
+#!/bin/bash -e
+# shellcheck disable=SC2006,SC2046
+
+usage() {
+  cat << EOF
+This application skaffold.yaml configuration
+
+Common parameters:
+  --make                  Make file target (default: generate, can repeat)
+
+Example:
+  $ hub configure -f hub.yaml -r $(dirname "$0") --make clean --make generate
+
+Warning: makefile has been deprecated and will be replaced by skaffold extension
+EOF
+}
+
+while [ "$1" != "" ]; do
+  case $1 in
+    --make )
+      shift
+      TARGETS="$(echo "$TARGETS $1" | xargs)"
+      ;;
+    --output )
+      shift
+      DOT_ENV="$1"
+      ;;
+    -h | --help )
+      usage
+      exit
+    ;;
+  esac
+  shift
+done
+
+echo "Configuring skaffold.yaml"
+
+if test -z "$DOT_ENV"; then
+	echo "Error: DOT_ENV undefined! Abort!"
+	exit 1
+fi
+
+if test -z "$TARGETS"; then
+  TARGETS="generate"
+fi
+
+set +a
+eval $($HUB_HOME/env/dotenv export -f "$DOT_ENV")
+set -a
+
+echo "* Running code generation tasks: $TARGETS"
+make -C "$(dirname $(dirname "$0"))" $TARGETS

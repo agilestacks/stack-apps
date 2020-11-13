@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Chart.Name }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "application.labels" . | indent 4 -}}
+    provider: agilestacks.com
+    project: {{ .Chart.Name }}
+spec:
+  ports:
+  - name: http
+    port: {{ .Values.service.port }}
+    targetPort: {{ .Values.containerPort }}
+    protocol: TCP
+  selector:
+    {{- include "application.labels" . | indent 4 -}}

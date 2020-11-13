@@ -1,0 +1,17 @@
+imageConfig:
+  pullPolicy: Always
+healthcheckPath: "/api/status"
+containerPort: 3000
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: true
+  annotations:
+    kubernetes.io/tls-acme: "true"
+  host: helm-chart.local
+  path: /
+  servicePort: 80
+  tlsHost: helm-chart.local
