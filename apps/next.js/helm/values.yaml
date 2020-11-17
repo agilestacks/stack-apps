@@ -1,3 +1,4 @@
+# image: image_repo/image_name:image_tag # Set image name. During skaffold deploy
 imageConfig:
   pullPolicy: Always
 healthcheckPath: "/api/status"

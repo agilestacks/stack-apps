@@ -7,18 +7,9 @@ build:
     # Set image name. During hub configure artifact repository will be added
   - image: asi-next-js
     sync:
-      manual:
-      - src: 'components/**/*.js'
-        dest: /app/components
-      - src: 'components/**/*.jsx'
-        dest: /app/components
-      - src: 'pages/**/*.js'
-        dest: /app/pages
-      - src: 'pages/**/*.jsx'
-        dest: /app/pages
-#     this conflicts with local build usning docker cli
-#     kaniko:
-#       cache: {}
+      infer:
+      - "**/*.js"
+      - "**/*jsx"
   tagPolicy:
     dateTime:
       format: 20060102-150405
@@ -42,18 +33,31 @@ profiles:
 - name: local
   activation:
   - env: KUBECONFIG=!
-  build:
-    local:
-      useDockerCLI: false
-      useBuildkit: false
-  test:
-  # we cannot do structure tests for kaniko setup because
-  # container-structure-test locally and skaffold doesn't do 'docker pull' after build
-  - image: asi-next-js
-    structureTests:
-    - ./test/*.yaml
+  patches:
+  - op: add
+    path: /build/artifacts/0/docker
+    value:
+      dockerfile: Dockerfile
+      buildArgs:
+        NPM_SCRIPT: 'dev'
 - name: kaniko
+  activation:
+  - command: dev
+  patches:
+  - op: add
+    path: /build/artifacts/0/kaniko
+    value:
+      cache: {}
+      dockerfile: Dockerfile
+      buildArgs:
+        NPM_SCRIPT: 'dev'
   build:
     cluster:
       dockerConfig:
         path: .hub/dockerconfig.json
+portForward:
+- resourceType: Deployment
+  resourceName: asi-next-js
+  namespace: default
+  port: 9229
+  localPort: 9229

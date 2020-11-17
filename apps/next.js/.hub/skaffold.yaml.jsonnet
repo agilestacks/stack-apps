@@ -2,6 +2,7 @@ local template = import 'skaffold.json';
 local app = std.extVar('HUB_APP_NAME');
 local host = std.extVar('HUB_APP_HOST');
 local repo = std.extVar('SKAFFOLD_DEFAULT_REPO');
+local namespace = std.extVar('SKAFFOLD_NAMESPACE');
 
 // avoid possible naming collisiton
 // for kaniko secrets in the same namespace
@@ -46,7 +47,13 @@ template {
   profiles: [
     profile + if 'build' in profile then {
       build+: withKanikoSecret(profile.build),
-    }
+    } else profile
     for profile in super.profiles
+  ],
+  portForward: [
+    port {
+      namespace: namespace
+    }
+    for port in super.portForward
   ],
 }
