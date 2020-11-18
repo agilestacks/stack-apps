@@ -8,7 +8,7 @@ Until recently, the developer experience with Kubernetes was very complicated. G
 
 To address these challenges, we have created developer workflow automation based on Skaffold, Hub CLI, and VS Code.
 
-The goal of this template is to provide automation for developer workflows on Kubernetes. At the core of this approach is Skaffold. Skaffold is a powerful tool for automating dev->test cycles on Kubernetes. In order to unlock some of the powerful features of Skaffold, AgileStacks provides automatic configuration management for Skaffold from Hub CLItool. When used together, these tools offer a combination of power and ease of use.
+The goal of this template is to provide automation for developer workflows on Kubernetes. At the core of this approach is Skaffold. Skaffold is a powerful tool for automating dev->test cycles on Kubernetes. In order to unlock some of the powerful features of Skaffold, AgileStacks provides automatic configuration management for Skaffold from Hub CLI tool. When used together, these tools offer a combination of power and ease of use.
 
 ### Required Prerequisites
 This application template requires a cloud based or local Kubernetes cluster and an instance of [Application Stack](https://github.com/agilestacks/stack-app-eks) to provide required infrastructure services such as ingress.
@@ -21,8 +21,7 @@ We will create DevOps automation for a simple NodeJs application, and deploy the
 
 ```
 $ git clone https://github.com/agilestacks/stack-apps.git
-$ cd stack-apps/apps/python-flask
-$ cd python-flask
+$ cd stack-apps/apps/next.js
 $ hub configure -f hub.yaml
 $ source .env
 $ skaffold dev --port-forward
