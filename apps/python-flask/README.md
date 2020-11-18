@@ -1,6 +1,6 @@
 # Simplifying Kubernetes for Developers with Hub CLI and Skaffold
 
-### NodeJs Application Template
+### Python Flask Application Template
 
 This is a cusomizable application template for Python Flask applications on Kubernetes.
 
