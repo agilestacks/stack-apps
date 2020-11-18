@@ -11,7 +11,7 @@ To address these challenges, we have created developer workflow automation based
 The goal of this template is to provide automation for developer workflows on Kubernetes. At the core of this approach is Skaffold. Skaffold is a powerful tool for automating dev->test cycles on Kubernetes. In order to unlock some of the powerful features of Skaffold, AgileStacks provides automatic configuration management for Skaffold from Hub CLItool. When used together, these tools offer a combination of power and ease of use.
 
 ### Required Prerequisites
-This application template requires a cloud based or local Kubernetes cluster and an instance of [Application Stack]https://github.com/agilestacks/stack-app-eks/ to provide required infrastructure services such as ingress.
+This application template requires a cloud based or local Kubernetes cluster and an instance of [Application Stack](https://github.com/agilestacks/stack-app-eks) to provide required infrastructure services such as ingress.
 
 Hub CLI is a packaging and deployment tool.  You can download Hub CLI from [here](https://superhub.io/)
 
