@@ -1,6 +1,6 @@
 # Simplifying Kubernetes for Developers with Hub CLI and Skaffold
 
-### NodeJs Application Template
+### NextJs React Application Template
 
 This is a cusomizable application template for [Next.js](https://nextjs.org/learn) applications on Kubernetes.
 
@@ -15,9 +15,9 @@ This application template requires a cloud based or local Kubernetes cluster and
 
 Hub CLI is a packaging and deployment tool.  You can download Hub CLI from [here](https://superhub.io/)
 
-### Configure and Deploy NodeJs Application
+### Configure and Deploy NextJs Application
 
-We will create DevOps automation for a simple NodeJs application, and deploy the app to Kubernetes with the following commands:
+We will create DevOps automation for a simple NextJs application, and deploy the app to Kubernetes with the following commands:
 
 ```
 $ git clone https://github.com/agilestacks/stack-apps.git
