@@ -1,6 +1,6 @@
 # Application Templates
 
-This is a repository for application templates that can be used with SuperHub. Our goal is to focus on the developer's productivity and provide automation to configure, deploy, and debug applications on Kubernetes. 
+This is a repository for application templates that can be used with Hub CLI. Our goal is to focus on the developer's productivity and provide automation to configure, deploy, and debug applications on Kubernetes. 
 
 ## Applications
 
