@@ -23,7 +23,6 @@ We will create DevOps automation for a simple NextJs application, and deploy the
 $ git clone https://github.com/agilestacks/stack-apps.git
 $ cd stack-apps/apps/next.js
 $ hub configure -f hub.yaml
-$ source .env
 $ skaffold dev --port-forward
 ```
 
