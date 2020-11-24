@@ -1,4 +1,4 @@
-apiVersion: v2
+apiVersion: v1
 name: asi-next-js
 description: A Helm chart of Rubik's Cube on Next.JS for Kubernetes
 type: application
