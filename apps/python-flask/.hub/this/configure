@@ -69,6 +69,7 @@ HUB_DOCKER_USER="$DOCKER_USER"
 HUB_DOCKER_PASS="$DOCKER_PASS"
 HUB_DOTENV="$(dirname $(dirname $(dirname "$0")))/.env"
 # Skaffold configuration
+export SKAFFOLD_PORT_FORWARD="true"
 export SKAFFOLD_DEFAULT_REPO="$DOCKER_HOST/library"
 export SKAFFOLD_PROFILE="${SKAFFOLD_PROFILE:-kaniko}"
 export SKAFFOLD_NAMESPACE="${SKAFFOLD_NAMESPACE:-default}"
