@@ -23,14 +23,15 @@ We will create DevOps automation for a simple NextJs application, and deploy the
 $ git clone https://github.com/agilestacks/stack-apps.git
 $ cd stack-apps/apps/next.js
 $ hub configure -f hub.yaml
-$ skaffold dev --port-forward
+$ source .env
+$ skaffold dev
 ```
 
-For additional details please refer to the following tutorial: [Simplifying Kubernetes for Developers with Hub CLI and Skaffold](https://docs.agilestacks.com/article/3pbulps5n7-simplifying-kubernetes-for-developers-with-hub-cli-and-skaffold). 
+For additional details please refer to the following tutorial: [Simplifying Kubernetes for Developers with Hub CLI and Skaffold](https://docs.agilestacks.com/article/3pbulps5n7-simplifying-kubernetes-for-developers-with-hub-cli-and-skaffold).
 
 ### Using the Debugger in Visual Studio Code
 A file named `.vscode/launch.json` provides configuration for Node.js debugger in Visual Studio Code.
-From VS Code press F5 or select `Debug: Start Debugging` from the Command Palette and you can start your debugging session. Now you can use the [debugger](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/debugger) statement to pause your backend or frontend code anytime you want to observe and debug your code.  You can also use VS Code breakpoints: [VS Code Node.js debugging: Breakpoints](https://code.visualstudio.com/docs/nodejs/nodejs-debugging#_breakpoints) 
+From VS Code press F5 or select `Debug: Start Debugging` from the Command Palette and you can start your debugging session. Now you can use the [debugger](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/debugger) statement to pause your backend or frontend code anytime you want to observe and debug your code.  You can also use VS Code breakpoints: [VS Code Node.js debugging: Breakpoints](https://code.visualstudio.com/docs/nodejs/nodejs-debugging#_breakpoints)
 
 
 

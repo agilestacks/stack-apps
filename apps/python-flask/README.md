@@ -24,10 +24,10 @@ $ git clone https://github.com/agilestacks/stack-apps.git
 $ cd stack-apps/apps/python-flask
 $ hub configure -f hub.yaml
 $ source .env
-$ skaffold dev --port-forward
+$ skaffold dev
 ```
 
-For additional details please refer to the following tutorial: [Simplifying Kubernetes for Developers with Hub CLI and Skaffold](https://docs.agilestacks.com/article/3pbulps5n7-simplifying-kubernetes-for-developers-with-hub-cli-and-skaffold). 
+For additional details please refer to the following tutorial: [Simplifying Kubernetes for Developers with Hub CLI and Skaffold](https://docs.agilestacks.com/article/3pbulps5n7-simplifying-kubernetes-for-developers-with-hub-cli-and-skaffold).
 
 ### Support
 Contact support@agilestacks.com for help with this template.
