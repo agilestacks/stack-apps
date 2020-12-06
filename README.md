@@ -8,12 +8,12 @@ All application templates here are available as customizable boilerplate code. D
 
 ### Python Flask
 
-[This](apps/python-flask) application template provides end-to-end automated developer workflow with: Python + Flask + Skaffold + VS Code. It includes templates for VSCode to do remote debugging, and live code updates in Kubernetes pods.
+[Python Flask](apps/python-flask) application template provides end-to-end automated developer workflow with: Python + Flask + Skaffold + VS Code. It includes templates for VSCode to do remote debugging, and live code updates in Kubernetes pods.
 
 Detailed tutorials are available on [Agile Stacks web site](https://www.agilestacks.com/tutorials/)
 
 ### JavaScript NextJs
 
-[This](apps/next.js) application template provides end-to-end automated developer workflow with: NextJs + React + Skaffold + VS Code. 
+[NodeJs React](apps/next.js) application template provides end-to-end automated developer workflow with: NextJs + React + Skaffold + VS Code. 
 
 Detailed tutorials are available on [Agile Stacks web site](https://www.agilestacks.com/tutorials/)
