@@ -4,6 +4,13 @@ imageConfig:
 healthcheckPath: "/api/status"
 containerPort: 3000
 
+db:
+  host: 127.0.0.1
+  port: 5432
+  user: root
+  password: secret
+  name: example
+
 service:
   type: ClusterIP
   port: 80

@@ -37,7 +37,7 @@ export default function RubiksCube({ initWords }) {
             flash: false,
           })),
         );
-        const response = await fetch(`${KEYWORDS_URL}?howmany=${initWords.length}&timestamp=${timestamp}`, { signal });
+        const response = await fetch(`${KEYWORDS_URL}?howmany=3&timestamp=${timestamp}`, { signal });
         const newWords = await response.json();
         setWords(
           newWords.map((word) => ({

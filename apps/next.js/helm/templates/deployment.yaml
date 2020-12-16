@@ -15,6 +15,25 @@ spec:
       labels:
         {{- include "application.labels" . | indent 8 }}
     spec:
+      initContainers:
+      - name: "{{ .Chart.Name }}-init"
+        image: {{ .Values.image }}
+        imagePullPolicy: Always
+        args: ["npm", "run", "db-migrate:up"]
+        env:
+          - name: DB_HOST
+            value: "{{ .Values.db.host }}"
+          - name: DB_PORT
+            value: "{{ .Values.db.port }}"
+          - name: DB_USER
+            value: "{{ .Values.db.user }}"
+          - name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: "{{ .Chart.Name }}-secrets"
+                key: db-password
+          - name: DB_NAME
+            value: "{{ .Values.db.name }}"
       containers:
       - name: {{ .Chart.Name }}
         image: {{ .Values.image }} # this value comes from the skaffold.yaml
@@ -24,21 +43,35 @@ spec:
 
         # let's redefine it in the `values.yaml` so we can keep it here.
         imagePullPolicy: {{ .Values.imageConfig.pullPolicy }}
+        env:
+          - name: DB_HOST
+            value: "{{ .Values.db.host }}"
+          - name: DB_PORT
+            value: "{{ .Values.db.port }}"
+          - name: DB_USER
+            value: "{{ .Values.db.user }}"
+          - name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: "{{ .Chart.Name }}-secrets"
+                key: db-password
+          - name: DB_NAME
+            value: "{{ .Values.db.name }}"
         ports:
         - name: http
           containerPort: {{ .Values.containerPort }}
           protocol: TCP
         livenessProbe:
           httpGet:
-            path: {{ .Values.healthcheckUrl }}
+            path: {{ .Values.healthcheckPath }}
             port: http
           periodSeconds: 20
           timeoutSeconds: 10
-          initialDelaySeconds: 15
+          initialDelaySeconds: 5
         readinessProbe:
           httpGet:
-            path: {{ .Values.healthcheckUrl }}
+            path: {{ .Values.healthcheckPath }}
             port: http
           periodSeconds: 20
           timeoutSeconds: 10
-          initialDelaySeconds: 15
+          initialDelaySeconds: 5

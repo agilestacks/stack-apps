@@ -7,17 +7,25 @@
     "lint:fix": "eslint --fix --ext .js,.jsx .",
     "dev": "NODE_OPTIONS='--inspect' next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "db-migrate": "db-migrate --config database.json",
+    "db-migrate:create": "npm run db-migrate -- create",
+    "db-migrate:reset": "npm run db-migrate -- reset",
+    "db-migrate:up": "npm run db-migrate -- up",
+    "db-migrate:down": "npm run db-migrate -- down"
   },
   "dependencies": {
     "classnames": "^2.2.6",
+    "db-migrate": "^0.11.11",
+    "db-migrate-pg": "^1.2.2",
     "next": "^10.0.0",
+    "pg": "^8.5.1",
     "prop-types": "^15.7.2",
-    "react": "16.13.1",
-    "react-dom": "16.13.1"
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1"
   },
   "devDependencies": {
-    "eslint": "^7.13.0",
+    "eslint": "^7.15.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-jsx-a11y": "^6.4.1",

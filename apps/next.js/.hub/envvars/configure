@@ -41,6 +41,11 @@ DOCKER_USER=$(hub show -q '.parameters.component.docker.auth.basic.username')
 DOCKER_PASS=$(hub show -q '.parameters.component.docker.auth.basic.password' | hub ext show-secret)
 HUB_INGRESS_HOST=$(hub show -q '.parameters."traefik:component".ingress.fqdn')
 HUB_DOMAIN_NAME=$(hub show -q '.parameters.dns.domain')
+DB_HOST=$(hub show -q '.parameters.component.postgresql.host')
+DB_PORT=$(hub show -q '.parameters.component.postgresql.port')
+DB_USER=$(hub show -q '.parameters.component.postgresql.user')
+DB_PASSWORD=$(hub show -q '.parameters.component.postgresql.password' | hub ext show-secret)
+DB_NAME=$(hub show -q '.parameters.component.postgresql.database')
 
 # TODO: give user ability to login manually
 # {
@@ -50,13 +55,19 @@ HUB_DOMAIN_NAME=$(hub show -q '.parameters.dns.domain')
 
 cat << EOF > "$DOT_ENV"
 HUB_APP_NAME="${HUB_APP_NAME}"
-HUB_APP_HOST="${HUB_APP_NAME}.${HUB_INGRESS_HOST}"
+export HUB_APP_HOST="${HUB_APP_NAME}.${HUB_INGRESS_HOST}"
 HUB_DOMAIN_NAME="$HUB_DOMAIN_NAME"
 HUB_DOCKER_HOST="$DOCKER_HOST"
 HUB_DOCKER_USER="$DOCKER_USER"
 HUB_DOCKER_PASS="$DOCKER_PASS"
 HUB_DOTENV="$(dirname $(dirname $(dirname "$0")))/.env"
 HUB_INGRESS_HOST="$HUB_INGRESS_HOST"
+# Database configuretion
+export DB_HOST="$DB_HOST"
+export DB_PORT="$DB_PORT"
+export DB_USER="$DB_USER"
+export DB_PASSWORD="$DB_PASSWORD"
+export DB_NAME="$DB_NAME"
 # Skaffold configuration
 export SKAFFOLD_PORT_FORWARD="true"
 export SKAFFOLD_DEFAULT_REPO="$DOCKER_HOST/library"

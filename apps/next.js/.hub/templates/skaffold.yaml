@@ -26,9 +26,14 @@ deploy:
         # Set image name. During hub configure artifact repository will be added
         image: asi-next-js # no tag present!
         # Skaffold continuously tags your image, so no need to put one here.
-      setValues:
-        ingress.host: $HUB_INGRESS_HOST
-        ingress.tlsHost: $HUB_INGRESS_HOST
+      setValueTemplates:
+        ingress.host: "{{.HUB_APP_HOST}}"
+        ingress.tlsHost: "{{.HUB_APP_HOST}}"
+        db.host: "{{.DB_HOST}}"
+        db.port: "{{.DB_PORT}}"
+        db.user: "{{.DB_USER}}"
+        db.password: "{{.DB_PASSWORD}}"
+        db.name: "{{.DB_NAME}}"
 profiles:
 - name: local
   activation:

@@ -6,7 +6,7 @@ import { ThemeSwitch } from '../components/ThemeSwitch/ThemeSwitch';
 import { ThemeContext, Themes } from '../components/Context';
 import { sample, Colors } from '../components/common';
 import RubiksCube from '../components/RubiksCube/RubiksCube';
-import { gimme } from './lib/gimme';
+import { gimme } from '../lib/gimme';
 
 const ThemeLocalStorageKey = 'asi-demo-app-theme';
 
@@ -80,8 +80,8 @@ Home.defaultProps = {
   initWords: [],
 };
 
-export async function getStaticProps() {
-  const words = await Promise.resolve(gimme(3));
+export async function getServerSideProps() {
+  const words = await gimme(3);
   return {
     props: {
       initWords: words.map((word) => ({

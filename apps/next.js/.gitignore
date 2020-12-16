@@ -34,5 +34,5 @@ yarn-error.log*
 .hub/lib
 .hub/**/*.json
 
-!pages/lib
+!/lib
 /skaffold.yaml

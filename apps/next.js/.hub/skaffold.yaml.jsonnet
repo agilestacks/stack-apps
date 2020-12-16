@@ -31,13 +31,9 @@ template {
   deploy+: {
     helm+: {
       releases: [
-        release + if 'artifactOverrides' in release && 'setValues' in release then {
+        release + if 'artifactOverrides' in release then {
           artifactOverrides+: {
             image: repo + '/' + super.image,
-          },
-          setValues+: {
-            'ingress.host': host,
-            'ingress.tlsHost': host,
           },
         } else release
         for release in super.releases
