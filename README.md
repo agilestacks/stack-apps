@@ -14,6 +14,6 @@ Detailed tutorials are available on [Agile Stacks web site](https://www.agilesta
 
 ### JavaScript NextJs
 
-[NodeJs React](apps/next.js) application template provides end-to-end automated developer workflow with: NextJs + React + Skaffold + VS Code. 
+[NodeJs React](apps/next.js) application template provides end-to-end automated developer workflow with: NextJs + React + Postgres + Skaffold + VS Code. 
 
 Detailed tutorials are available on [Agile Stacks web site](https://www.agilestacks.com/tutorials/)
